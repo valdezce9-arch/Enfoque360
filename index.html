@@ -55,7 +55,30 @@
         .text-accent { color: #1a3d39; }
         .bg-accent { background-color: #c9ba8b; }
         .border-accent { border-color: #c9ba8b; }
+
+        /* Animaciones Premium */
+        .js-enabled .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        .js-enabled .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .js-enabled .animate-fade-in {
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        .js-enabled .animate-fade-in.is-visible {
+            opacity: 1;
+            transform: scale(1);
+        }
     </style>
+    <script>document.documentElement.classList.add('js-enabled');</script>
 </head>
 <body class="bg-gray-50 text-gray-900 font-sans selection:bg-gold selection:text-white">
 
@@ -64,9 +87,14 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20">
                 <div class="flex items-center">
-                    <span class="text-2xl font-extrabold tracking-tight text-white">
-                        ENFOQUE <span class="text-gold">360</span>
-                    </span>
+                    <a href="#" class="flex items-center gap-3 group">
+                        <span class="text-xl font-black tracking-widest text-white uppercase">ERP</span>
+                        <span class="w-px h-8 bg-white/30"></span>
+                        <span class="flex flex-col leading-none">
+                            <span class="text-base font-black tracking-widest text-white uppercase">ENFOQUE</span>
+                            <span class="text-base font-black tracking-widest text-white uppercase">360</span>
+                        </span>
+                    </a>
                 </div>
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-8">
@@ -112,24 +140,27 @@
                     <div class="flex flex-wrap justify-center lg:justify-start gap-2 mb-6">
                         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold/20 text-gold font-semibold text-xs tracking-wide uppercase">
                             <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16A8 8 0 0010 2zm0 14a6 6 0 110-12 6 6 0 010 12z"/></svg>
-                            Software Web
+                            Software con entorno web
                         </span>
                         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 text-white font-semibold text-xs tracking-wide uppercase">
                             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
                             100% Local · Red Interna
                         </span>
                         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 text-white font-semibold text-xs tracking-wide uppercase">
-                            🏆 1er ERP Techo Propio AVN del Perú
+                            🏆 1er ERP diseñado exclusivo a programas de Techo Propio
                         </span>
                     </div>
-                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
-                        El Software ERP <br>
-                        <span class="text-gold">diseñado para</span> <br>
-                        Techo Propio AVN
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-[1.15] mb-8 max-w-3xl mx-auto lg:mx-0 pr-4">
+                        Enfoque 360: <span class="text-gold">La evolución técnica</span> de la vivienda social
                     </h1>
-                    <p class="text-lg md:text-xl text-white/85 mb-10 max-w-2xl mx-auto lg:mx-0">
-                        Sistema web con 9 módulos integrados que corre en la red local de su oficina. Valida con RENIEC, sincroniza con FMV y gestiona cada etapa del proceso inmobiliario — sin depender de internet externo.
-                    </p>
+                    <div class="space-y-6 text-lg md:text-xl text-white/90 mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-light">
+                        <p>
+                            Hemos destruido la barrera del control manual para dar paso a la <strong class="text-white font-bold">infraestructura digital definitiva</strong>. Bienvenido a la gestión inmobiliaria de alta precisión donde la data trabaja para usted, y no al revés.
+                        </p>
+                        <p class="text-base md:text-lg text-white/75 border-l-2 border-gold/30 pl-6 italic">
+                            Un ecosistema blindado diseñado para dominar los programas de Techo Propio, automatizando la burocracia estatal, alertando sobre caducidades críticas y centralizando 9 áreas operativas en un solo tablero de mando.
+                        </p>
+                    </div>
                     <div class="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
                         <a href="https://wa.me/51934441569" class="px-8 py-4 bg-gold hover:bg-gold-dark text-black rounded-xl font-bold text-lg transition-all shadow-2xl shadow-gold/20">
                             Agenda una Demo Ahora
@@ -561,9 +592,14 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid md:grid-cols-4 gap-12 mb-16">
                 <div class="col-span-2">
-                    <span class="text-2xl font-bold tracking-tight text-white mb-6 block">
-                        ENFOQUE <span class="text-gold">360</span>
-                    </span>
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="text-xl font-black tracking-widest text-white uppercase">ERP</span>
+                        <span class="w-px h-8 bg-white/30"></span>
+                        <span class="flex flex-col leading-none">
+                            <span class="text-base font-black tracking-widest text-white uppercase">ENFOQUE</span>
+                            <span class="text-base font-black tracking-widest text-white uppercase">360</span>
+                        </span>
+                    </div>
                     <p class="text-gray-400 max-w-sm text-lg">
                         El ERP que integra inteligencia comercial con seguridad física. Potenciando a las inmobiliarias que construyen el Perú.
                     </p>
@@ -585,21 +621,83 @@
                     </ul>
                 </div>
             </div>
-            <div class="border-t border-white/5 pt-10 text-center text-gray-500 text-sm">
-                <p>&copy; 2026 Enfoque 360 - Todos los derechos reservados.</p>
-                <div class="mt-4 flex justify-center space-x-6">
+            <div class="border-t border-white/10 pt-10 flex flex-col md:flex-row justify-between items-center text-gray-300 text-sm gap-8">
+                <p class="order-2 md:order-1 opacity-60 hover:opacity-100 transition-opacity">&copy; 2026 Enfoque 360 - Todos los derechos reservados.</p>
+                
+                <div class="flex space-x-8 order-1 md:order-2">
                     <span class="hover:text-gold cursor-pointer transition-colors">LinkedIn</span>
                     <span class="hover:text-gold cursor-pointer transition-colors">Facebook</span>
                     <span class="hover:text-gold cursor-pointer transition-colors">Instagram</span>
+                </div>
+
+                <div class="flex items-center gap-5 order-3 group/creado">
+                    <span class="text-[10px] tracking-widest uppercase text-white/50 group-hover/creado:text-white/80 transition-colors">Creado por</span>
+                    <!-- Máxima visibilidad: opacidad 100% y filtro de brillo para resaltar sobre el fondo oscuro -->
+                    <img src="logo_enfoque.png" alt="Logo Enfoque" class="h-12 md:h-16 brightness-0 invert opacity-100 drop-shadow-[0_0_8px_rgba(255,255,255,0.2)] group-hover/creado:drop-shadow-[0_0_12px_rgba(255,255,255,0.4)] transition-all duration-300 cursor-pointer">
                 </div>
             </div>
         </div>
     </footer>
 
     <!-- Floating WhatsApp Button -->
-    <a href="https://wa.me/51934441569" target="_blank" class="fixed bottom-8 right-8 bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform z-50">
-        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.588-5.946 0-6.556 5.332-11.891 11.887-11.891 3.181 0 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.481 8.403 0 6.556-5.332 11.89-11.888 11.89-2.015 0-3.991-.511-5.741-1.486L0 24zm6.152-3.411l.341.202c1.428.848 3.032 1.295 4.675 1.295 4.887 0 8.867-3.982 8.867-8.867 0-2.358-.918-4.576-2.584-6.244-1.667-1.667-3.886-2.583-6.242-2.583-4.888 0-8.868 3.981-8.868 8.868 0 1.83.564 3.616 1.631 5.161l.223.323-.948 3.465 3.558-.934zM17.507 14.33c-.324-.162-1.921-.947-2.219-1.056-.297-.108-.514-.162-.73.162-.216.324-.838 1.056-1.027 1.272-.19.216-.379.243-.703.081-.324-.162-1.369-.505-2.61-1.611-.963-.859-1.613-1.921-1.803-2.244-.19-.324-.02-.501.127-.678.132-.158.297-.346.446-.518.148-.172.197-.293.297-.487.099-.194.05-.363-.025-.521-.075-.158-.727-1.751-.996-2.399-.263-.631-.53-.545-.73-.555-.188-.01-.403-.012-.619-.012s-.567.081-.864.405c-.297.324-1.135 1.108-1.135 2.701s1.162 3.134 1.324 3.351c.162.216 2.288 3.494 5.542 4.904.774.335 1.378.535 1.85.685.776.246 1.482.212 2.04.13.621-.092 1.921-.784 2.191-1.541.27-.757.27-1.405.189-1.541-.08-.135-.297-.216-.621-.378z"/></svg>
-    </a>
+    <div class="fixed bottom-8 right-8 z-50 flex flex-col items-end gap-3 group">
+        <!-- Tooltip -->
+        <div class="bg-white text-gray-800 text-sm font-bold py-2.5 px-4 rounded-xl shadow-xl opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 pointer-events-none border border-gray-100 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-[#25D366] animate-pulse"></span>
+            ¿Necesitas una Demo?
+            <div class="absolute -bottom-1.5 right-6 w-3 h-3 bg-white rotate-45 border-r border-b border-gray-100"></div>
+        </div>
+        
+        <!-- Button -->
+        <a href="https://wa.me/51934441569" target="_blank" class="relative flex items-center justify-center w-16 h-16 bg-[#25D366] text-white rounded-full shadow-[0_10px_25px_rgba(37,211,102,0.4)] hover:scale-110 transition-transform duration-300 focus:outline-none">
+            <!-- Ping Animation Ring -->
+            <span class="absolute inset-0 rounded-full bg-[#25D366] animate-ping opacity-30 duration-[2000ms]"></span>
+            
+            <svg class="w-9 h-9 relative z-10" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+        </a>
+    </div>
+    <!-- Script de Animaciones Premium -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
 
+            // Inyectamos las clases dinámicamente para mantener el HTML limpio
+            const animationGroups = [
+                { select: '.hero-gradient .text-center', class: 'animate-on-scroll' },
+                { select: '.hero-gradient .relative.group', class: 'animate-fade-in', delay: 200 },
+                { select: '#problemas .text-center', class: 'animate-on-scroll' },
+                { select: '#problemas .grid > div', class: 'animate-on-scroll', stagger: 150 },
+                { select: '.bg-forest-dark .flex-col > div, .bg-forest-dark .flex-1', class: 'animate-on-scroll', stagger: 100 }, 
+                { select: '#modulos .text-center', class: 'animate-on-scroll' },
+                { select: '#modulos .grid > div', class: 'animate-on-scroll', stagger: 100 },
+                { select: '#modulos .mt-12', class: 'animate-on-scroll', delay: 200 },
+                { select: '#solucion .text-center', class: 'animate-on-scroll' },
+                { select: '#solucion > div > div > div:first-child', class: 'animate-on-scroll' },
+                { select: '#solucion .space-y-6 > div', class: 'animate-on-scroll', stagger: 150 },
+                { select: '#solucion .shadow-2xl', class: 'animate-fade-in', delay: 300 },
+                { select: '.py-24 .text-center', class: 'animate-on-scroll' },
+                { select: '.py-24 .grid > div', class: 'animate-on-scroll', stagger: 200 },
+                { select: '.bg-gray-50 .bg-white', class: 'animate-fade-in' }
+            ];
+
+            animationGroups.forEach(group => {
+                document.querySelectorAll(group.select).forEach((el, index) => {
+                    el.classList.add(group.class);
+                    if (group.stagger) el.style.transitionDelay = `${index * group.stagger}ms`;
+                    if (group.delay) el.style.transitionDelay = `${group.delay}ms`;
+                    observer.observe(el);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
