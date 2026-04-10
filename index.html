@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enfoque 360 | ERP para Constructoras e Inmobiliarias</title>
+    <meta name="description" content="Enfoque 360: El ERP especializado para constructoras en el norte del Perú. Control de lotización, validación RENIEC y hardware dedicado.">
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Alpine.js for simple interactions -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        forest: {
+                            light: '#558c84',
+                            DEFAULT: '#2d5f59',
+                            dark: '#1a3d39',
+                        },
+                        gold: {
+                            light: '#f0ead2',
+                            DEFAULT: '#c9ba8b',
+                            dark: '#a8996a',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        [x-cloak] { display: none !important; }
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #2d5f59 0%, #1a3d39 100%);
+        }
+        /* Acento visible sobre fondos blancos */
+        .text-accent { color: #1a3d39; }
+        .bg-accent { background-color: #c9ba8b; }
+        .border-accent { border-color: #c9ba8b; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 font-sans selection:bg-gold selection:text-white">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-forest/95 backdrop-blur-md border-b border-white/10" x-data="{ open: false }">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <span class="text-2xl font-extrabold tracking-tight text-white">
+                        ENFOQUE <span class="text-gold">360</span>
+                    </span>
+                </div>
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#problemas" class="text-white/90 hover:text-gold transition-colors font-medium">Desafíos</a>
+                    <a href="#solucion" class="text-white/90 hover:text-gold transition-colors font-medium">Solución</a>
+                    <a href="#contacto" class="text-white/90 hover:text-gold transition-colors font-medium">Soporte</a>
+                    <a href="https://wa.me/51934441569" target="_blank" class="bg-white text-forest-dark hover:bg-gold hover:text-black px-6 py-2.5 rounded-full font-bold transition-all transform hover:scale-105 shadow-lg">
+                        Solicitar Demo
+                    </a>
+                </div>
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button @click="open = !open" class="text-white p-2">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                            <path x-show="open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div x-show="open" x-cloak class="md:hidden bg-forest-dark px-4 pt-2 pb-6 border-t border-white/10">
+            <a href="#problemas" @click="open = false" class="block py-3 text-gray-300 border-b border-white/5">Desafíos</a>
+            <a href="#solucion" @click="open = false" class="block py-3 text-gray-300 border-b border-white/5">Solución</a>
+            <a href="#contacto" @click="open = false" class="block py-3 text-gray-300 border-b border-white/5">Soporte</a>
+            <div class="mt-4">
+                <a href="https://wa.me/51934441569" class="block w-full bg-gold text-black text-center py-3 rounded-lg font-bold">Solicitar Demo</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden hero-gradient">
+        <div class="absolute inset-0 opacity-10 pointer-events-none">
+            <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <path d="M0 100 C 20 0 50 0 100 100 Z" fill="white"></path>
+            </svg>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="text-center lg:text-left">
+                    <div class="flex flex-wrap justify-center lg:justify-start gap-2 mb-6">
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold/20 text-gold font-semibold text-xs tracking-wide uppercase">
+                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16A8 8 0 0010 2zm0 14a6 6 0 110-12 6 6 0 010 12z"/></svg>
+                            Software Web
+                        </span>
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 text-white font-semibold text-xs tracking-wide uppercase">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                            100% Local · Red Interna
+                        </span>
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 text-white font-semibold text-xs tracking-wide uppercase">
+                            🏆 1er ERP Techo Propio AVN del Perú
+                        </span>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
+                        El Software ERP <br>
+                        <span class="text-gold">diseñado para</span> <br>
+                        Techo Propio AVN
+                    </h1>
+                    <p class="text-lg md:text-xl text-white/85 mb-10 max-w-2xl mx-auto lg:mx-0">
+                        Sistema web con 9 módulos integrados que corre en la red local de su oficina. Valida con RENIEC, sincroniza con FMV y gestiona cada etapa del proceso inmobiliario — sin depender de internet externo.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
+                        <a href="https://wa.me/51934441569" class="px-8 py-4 bg-gold hover:bg-gold-dark text-black rounded-xl font-bold text-lg transition-all shadow-2xl shadow-gold/20">
+                            Agenda una Demo Ahora
+                        </a>
+                        <a href="#modulos" class="px-8 py-4 border border-white/30 text-white hover:bg-white/10 rounded-xl font-bold text-lg transition-all">
+                            Ver Módulos
+                        </a>
+                    </div>
+                </div>
+                <div class="relative group">
+                    <div class="absolute -inset-4 bg-gold/20 rounded-2xl blur-2xl group-hover:bg-gold/30 transition-all duration-500"></div>
+                    <img src="hero.png" alt="Dashboard Enfoque 360" class="relative rounded-2xl shadow-2xl border border-white/10 transform transition-transform duration-500 group-hover:scale-[1.02]">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problemas Section -->
+    <section id="problemas" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-forest mb-4">Obstáculos que estancan tu crecimiento</h2>
+                <div class="w-20 h-1.5 bg-gold mx-auto rounded-full"></div>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Problema 1 -->
+                <div class="p-8 rounded-2xl bg-gray-50 border border-gray-100 hover:shadow-xl transition-all group">
+                    <div class="w-14 h-14 bg-red-100 rounded-lg flex items-center justify-center mb-6 group-hover:bg-red-500 transition-colors">
+                        <svg class="w-8 h-8 text-red-600 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-forest mb-3">Errores Manuales</h3>
+                    <p class="text-gray-600">Archivos Excel y procesos manuales que causan descuadres costosos y retrasos operativos críticos.</p>
+                </div>
+                <!-- Problema 2 -->
+                <div class="p-8 rounded-2xl bg-gray-50 border border-gray-100 hover:shadow-xl transition-all group">
+                    <div class="w-14 h-14 bg-red-100 rounded-lg flex items-center justify-center mb-6 group-hover:bg-red-500 transition-colors">
+                        <svg class="w-8 h-8 text-red-600 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-forest mb-3">Pérdida de Bonos FMV</h3>
+                    <p class="text-gray-600">Rechazos en Techo Propio por datos desactualizados o faltantes. Dinero que deja de entrar a tu caja.</p>
+                </div>
+                <!-- Problema 3 -->
+                <div class="p-8 rounded-2xl bg-gray-50 border border-gray-100 hover:shadow-xl transition-all group">
+                    <div class="w-14 h-14 bg-red-100 rounded-lg flex items-center justify-center mb-6 group-hover:bg-red-500 transition-colors">
+                        <svg class="w-8 h-8 text-red-600 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-forest mb-3">Data Vulnerable</h3>
+                    <p class="text-gray-600">Tu información estratégica en nubes públicas sin control real. Riesgo de filtración y pérdida técnica.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AVN Banner -->
+    <section class="py-16 bg-forest-dark text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row items-center gap-10">
+                <div class="flex-shrink-0 text-center">
+                    <div class="inline-flex items-center justify-center w-24 h-24 rounded-2xl bg-gold/20 border-2 border-gold/40 text-gold text-4xl font-black shadow-xl">
+                        #1
+                    </div>
+                    <p class="text-gold font-bold text-sm mt-2 uppercase tracking-widest">Pionero</p>
+                </div>
+                <div class="flex-1 text-center lg:text-left">
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-3">
+                        El Primer ERP del Perú Especializado en Programas <span class="text-gold">Techo Propio AVN</span>
+                    </h2>
+                    <p class="text-white/80 text-lg max-w-3xl">
+                        No somos un ERP genérico adaptado. Fuimos concebidos desde el primer día para cubrir <strong class="text-white">cada requerimiento específico del programa Adquisición de Vivienda Nueva (AVN)</strong>: desde la postulación hasta el desembolso del bono. Esto nos da una profundidad de gestión que ninguna otra solución del mercado puede ofrecer.
+                    </p>
+                </div>
+                <div class="flex-shrink-0 grid grid-cols-2 gap-3 text-sm">
+                    <div class="bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-center">
+                        <p class="text-2xl font-black text-gold">9</p>
+                        <p class="text-white/80 text-xs">Módulos</p>
+                    </div>
+                    <div class="bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-center">
+                        <p class="text-2xl font-black text-gold">100%</p>
+                        <p class="text-white/80 text-xs">Web Local</p>
+                    </div>
+                    <div class="bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-center">
+                        <p class="text-2xl font-black text-gold">AVN</p>
+                        <p class="text-white/80 text-xs">Especializado</p>
+                    </div>
+                    <div class="bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-center">
+                        <p class="text-2xl font-black text-gold">24/7</p>
+                        <p class="text-white/80 text-xs">Operativo</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Módulos del ERP -->
+    <section id="modulos" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="inline-block bg-forest/10 text-forest font-bold uppercase tracking-widest text-sm px-4 py-1.5 rounded-full mb-4">Software Modular</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">9 Módulos Integrados. Un Solo Sistema.</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Sistema <strong>100% web</strong>, accesible desde cualquier equipo en su red local. Conéctelo además a otras sedes o puntos de atención según sus necesidades.</p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <!-- Módulo 1: Clientes -->
+                <div class="group flex items-start gap-5 p-6 rounded-2xl border border-gray-100 bg-gray-50 hover:border-forest/30 hover:bg-forest/5 hover:shadow-lg transition-all duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-forest text-white flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-forest/20">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-1">Clientes</h3>
+                        <p class="text-gray-600 text-sm">Registro validado con RENIEC. Ficha completa del comprador con historial de interacciones y documentos.</p>
+                    </div>
+                </div>
+
+                <!-- Módulo 2: Proyectos -->
+                <div class="group flex items-start gap-5 p-6 rounded-2xl border border-gray-100 bg-gray-50 hover:border-forest/30 hover:bg-forest/5 hover:shadow-lg transition-all duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-forest text-white flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-forest/20">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-1">Proyectos</h3>
+                        <p class="text-gray-600 text-sm">Gestión de lotización, disponibilidad de unidades y control de inventario antiduplicidad en tiempo real.</p>
+                    </div>
+                </div>
+
+                <!-- Módulo 3: Ventas -->
+                <div class="group flex items-start gap-5 p-6 rounded-2xl border border-gray-100 bg-gray-50 hover:border-forest/30 hover:bg-forest/5 hover:shadow-lg transition-all duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-forest text-white flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-forest/20">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-1">Ventas</h3>
+                        <p class="text-gray-600 text-sm">Registro de contratos, minutas y adendas. Generación automática de documentos listos para firma.</p>
+                    </div>
+                </div>
+
+                <!-- Módulo 4: Atenciones -->
+                <div class="group flex items-start gap-5 p-6 rounded-2xl border border-gray-100 bg-gray-50 hover:border-forest/30 hover:bg-forest/5 hover:shadow-lg transition-all duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-forest text-white flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-forest/20">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-1">Atenciones</h3>
+                        <p class="text-gray-600 text-sm">Seguimiento de consultas y requerimientos de cada cliente durante todo el proceso de compra.</p>
+                    </div>
+                </div>
+
+                <!-- Módulo 5: Trámites FMV -->
+                <div class="group flex items-start gap-5 p-6 rounded-2xl border border-gray-100 bg-gray-50 hover:border-forest/30 hover:bg-forest/5 hover:shadow-lg transition-all duration-300 relative">
+                    <div class="absolute top-3 right-3">
+                        <span class="text-[10px] font-bold uppercase tracking-wider bg-gold/20 text-gold-dark px-2 py-0.5 rounded-full">FMV Smart</span>
+                    </div>
+                    <div class="w-12 h-12 rounded-xl bg-forest text-white flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-forest/20">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-1">Trámites FMV</h3>
+                        <p class="text-gray-600 text-sm">Seguimiento inteligente de estados FMV. Gestión de postulaciones, bonos y alertas de caducidad integradas al flujo de trabajo.</p>
+                    </div>
+                </div>
+
+                <!-- Módulo 6: Desistimientos -->
+                <div class="group flex items-start gap-5 p-6 rounded-2xl border border-gray-100 bg-gray-50 hover:border-forest/30 hover:bg-forest/5 hover:shadow-lg transition-all duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-forest text-white flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-forest/20">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-1">Desistimientos</h3>
+                        <p class="text-gray-600 text-sm">Gestión y registro formal de retiros de compradores, liberando automáticamente el lote en el inventario.</p>
+                    </div>
+                </div>
+
+                <!-- Módulo 7: Control de Cuentas Comerciales -->
+                <div class="group flex items-start gap-5 p-6 rounded-2xl border border-gray-100 bg-gray-50 hover:border-forest/30 hover:bg-forest/5 hover:shadow-lg transition-all duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-forest text-white flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-forest/20">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-1">Control de Cuentas Comerciales</h3>
+                        <p class="text-gray-600 text-sm">Seguimiento de cuotas, saldos y estados de pago por cliente. Alertas automáticas por vencimiento.</p>
+                    </div>
+                </div>
+
+                <!-- Módulo 8: Control de Pagos de Desistimientos -->
+                <div class="group flex items-start gap-5 p-6 rounded-2xl border border-gray-100 bg-gray-50 hover:border-forest/30 hover:bg-forest/5 hover:shadow-lg transition-all duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-forest text-white flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-forest/20">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-1">Control de Pagos de Desistimientos</h3>
+                        <p class="text-gray-600 text-sm">Registro y control de devoluciones y penalidades asociadas a retiros de compradores.</p>
+                    </div>
+                </div>
+
+                <!-- Módulo 9: Control de Procesos -->
+                <div class="group flex items-start gap-5 p-6 rounded-2xl border border-gray-100 bg-gray-50 hover:border-forest/30 hover:bg-forest/5 hover:shadow-lg transition-all duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-forest text-white flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-forest/20">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-1">Control de Procesos</h3>
+                        <p class="text-gray-600 text-sm">Hitos programables (entrega de llaves, muretes, etc.) con rastreo de cumplimiento y notificaciones.</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Nota de arquitectura web/red -->
+            <div class="mt-12 p-6 bg-forest-dark rounded-2xl flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
+                <div class="w-14 h-14 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center flex-shrink-0 mx-auto md:mx-0">
+                    <svg class="w-7 h-7 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/></svg>
+                </div>
+                <div class="flex-1">
+                    <h4 class="text-white font-bold text-lg mb-1">Sistema 100% Web · Red Local · Multi-Punto</h4>
+                    <p class="text-white/75 text-sm">Accesible desde cualquier navegador en su red interna. No requiere instalaciones por equipo. Se puede configurar para conectar múltiples sedes o puntos de atención de forma segura.</p>
+                </div>
+                <a href="https://wa.me/51934441569" class="flex-shrink-0 px-6 py-3 bg-gold hover:bg-gold-dark text-black font-bold rounded-xl text-sm transition-all whitespace-nowrap">
+                    Solicitar Demo
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sistema de Alertas Proactivas -->
+    <section id="solucion" class="py-20 bg-gray-50 border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <span class="text-forest font-bold uppercase tracking-widest text-sm mb-2 block">Inteligencia Automática</span>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Sistema de Alertas Proactivas</h2>
+                    <p class="text-xl text-gray-600 mb-8">
+                        ERP Enfoque 360 no espera a que usted le pregunte; él le informa mediante e-mail, configurable semanal o mensualmente:
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 mt-1">
+                                <div class="w-10 h-10 rounded-full bg-forest/10 flex items-center justify-center text-forest">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-bold text-gray-900">A Ventas</h4>
+                                <p class="text-gray-600 mt-1">Alerta automáticamente sobre clientes con cuotas por vencer o vencidas.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 mt-1">
+                                <div class="w-10 h-10 rounded-full bg-forest/10 flex items-center justify-center text-forest">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-bold text-gray-900">A Gerencia</h4>
+                                <p class="text-gray-600 mt-1">Envía estatus semanales de recaudación, ventas y desistimientos.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 mt-1">
+                                <div class="w-10 h-10 rounded-full bg-forest/10 flex items-center justify-center text-forest">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-bold text-gray-900">A Operaciones</h4>
+                                <p class="text-gray-600 mt-1">Notifica la caducidad inminente de estados de postulación de Techo Propio para evitar la pérdida de bonos.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative bg-white rounded-2xl shadow-2xl p-8 border border-gray-100">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-gold to-forest-light rounded-2xl blur opacity-20"></div>
+                    <div class="relative">
+                        <!-- Mockup de Alerta Email -->
+                        <div class="border-b border-gray-100 pb-6 mb-6">
+                            <div class="flex items-center space-x-4 mb-4">
+                                <div class="w-10 h-10 rounded-full bg-forest text-white flex items-center justify-center font-bold shadow-inner text-sm">360</div>
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-start">
+                                        <p class="text-sm font-bold text-gray-900">ERP Enfoque 360 <span class="text-gray-400 font-normal lg:inline hidden ml-1">&lt;alertas@enfoque360.pe&gt;</span></p>
+                                        <span class="text-[10px] uppercase tracking-wider bg-gray-100 text-gray-500 px-2 py-0.5 rounded font-bold">Urgente</span>
+                                    </div>
+                                    <p class="text-xs text-gray-500">Para: operaciones@tuconstructora.pe</p>
+                                </div>
+                            </div>
+                            <h5 class="text-md md:text-lg font-bold text-gray-900 leading-tight">ALERTA: Caducidad Inminente de Postulaciones - Techo Propio</h5>
+                        </div>
+                        <div class="space-y-4">
+                            <p class="text-sm text-gray-700 italic">Estimado equipo de Operaciones,</p>
+                            <p class="text-sm text-gray-600">El asistente inteligente ha detectado registros que requieren acción inmediata para evitar la pérdida de bonos:</p>
+                            <div class="p-5 bg-red-50 text-red-900 rounded-xl text-sm font-bold border border-red-100 flex items-start space-x-3">
+                                <span class="text-xl">⚠️</span>
+                                <div>
+                                    <p>3 postulaciones de Techo Propio están por caducar en 5 días.</p>
+                                    <p class="text-xs font-normal text-red-700 mt-1">Proyecto: Residencial Los Olivos II</p>
+                                </div>
+                            </div>
+                            <div class="h-2 bg-gray-50 rounded w-full"></div>
+                            <div class="h-2 bg-gray-50 rounded w-4/5"></div>
+                            <div class="mt-8 pt-6 border-t border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4">
+                                <span class="text-[10px] text-gray-400">Enviado automáticamente por el Asistente Enfoque 360</span>
+                                <div class="flex space-x-2">
+                                    <span class="px-4 py-2 bg-forest text-white text-xs rounded-lg font-bold shadow-lg shadow-forest/20 cursor-default">Ver Detalles</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Implementación y Migración -->
+    <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-forest mb-4">Servicios Integrales Incluidos</h2>
+                <div class="w-20 h-1.5 bg-gold mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- Hardware e Implementación -->
+                <div class="relative group rounded-3xl bg-gray-50 border border-gray-100 p-10 hover:shadow-2xl transition-all duration-500 overflow-hidden">
+                    <div class="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
+                        <svg class="w-32 h-32" fill="currentColor" viewBox="0 0 24 24"><path d="M5 3v18h14V3H5zm7 15a2 2 0 110-4 2 2 0 010 4zm3-6H9V5h6v7z"/></svg>
+                    </div>
+                    <div class="w-16 h-16 bg-gold/20 text-gold-dark rounded-2xl flex items-center justify-center mb-8">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" /></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Implementación "Llave en Mano" (Hardware y Red)</h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        Para asegurar que este asistente trabaje con la máxima potencia y privacidad (100% local), nuestro servicio incluye:
+                    </p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="text-gold mt-1 mr-3 flex-shrink-0">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                            </span>
+                            <div>
+                                <strong class="text-gray-900">Entrega de una Mini PC configurada:</strong>
+                                <span class="text-gray-600"> Este será el "cerebro" local de su oficina que trabajará 24/7.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-gold mt-1 mr-3 flex-shrink-0">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                            </span>
+                            <div>
+                                <strong class="text-gray-900">Integración de Red:</strong>
+                                <span class="text-gray-600"> Configuración de las estaciones de trabajo de su empresa para un acceso fluido y seguro al sistema.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Migración de Data -->
+                <div class="relative group rounded-3xl bg-forest-dark text-white border border-forest p-10 hover:shadow-2xl transition-all duration-500 overflow-hidden">
+                    <div class="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
+                        <svg class="w-32 h-32" fill="currentColor" viewBox="0 0 24 24"><path d="M4 4h16v16H4V4zm2 2v12h12V6H6zm2 2h8v2H8V8zm0 4h8v2H8v-2z"/></svg>
+                    </div>
+                    <div class="w-16 h-16 bg-white/10 text-white rounded-2xl flex items-center justify-center mb-8 border border-white/20">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Servicio de Migración y Saneamiento de Data</h3>
+                    <p class="text-white/85 mb-6 leading-relaxed">
+                        Sabemos que la transición es crítica. Por ello, incluimos la migración asistida de su data actual.
+                    </p>
+                    <div class="bg-white/5 border border-white/10 rounded-xl p-6">
+                        <p class="text-gray-200">
+                            Realizamos una <strong>limpieza y validación masiva</strong> de sus registros actuales contra RENIEC y FMV, asegurando que su nuevo entorno de gestión empiece con <strong>información 100% depurada</strong>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Confianza / Ubicación -->
+    <section class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-3xl p-8 md:p-16 shadow-2xl overflow-hidden relative">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full -mr-32 -mt-32"></div>
+                <div class="grid lg:grid-cols-2 gap-12 items-center relative space-y-8 lg:space-y-0 text-center lg:text-left">
+                    <div>
+                        <h2 class="text-3xl font-bold text-forest mb-6">Orgullosamente del Norte</h2>
+                        <p class="text-lg text-gray-600 mb-8">
+                            Nacimos en Trujillo para revolucionar la gestión de constructoras peruanas. Entendemos los desafíos locales de Techo Propio y FMV mejor que nadie.
+                        </p>
+                        <ul class="space-y-4 inline-block lg:block">
+                            <li class="flex items-center space-x-3 text-gray-700">
+                                <span class="text-gold">✔</span>
+                                <span>Soporte técnico presencial en Trujillo</span>
+                            </li>
+                            <li class="flex items-center space-x-3 text-gray-700">
+                                <span class="text-gold">✔</span>
+                                <span>Capacitación en sitio para tu equipo</span>
+                            </li>
+                            <li class="flex items-center space-x-3 text-gray-700">
+                                <span class="text-gold">✔</span>
+                                <span>Expertos en normativas peruanas</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="rounded-2xl h-64 bg-forest-dark flex items-center justify-center p-8 border-4 border-gold/20">
+                        <div class="text-center">
+                            <span class="block text-5xl mb-4">📍</span>
+                            <p class="text-white text-xl font-bold">Oficina Central</p>
+                            <p class="text-gold">Centro Empresarial Trujillo</p>
+                            <p class="text-gray-400 text-sm mt-2">Atención inmediata en todo el norte del país</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contacto" class="bg-forest-dark text-white pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-12 mb-16">
+                <div class="col-span-2">
+                    <span class="text-2xl font-bold tracking-tight text-white mb-6 block">
+                        ENFOQUE <span class="text-gold">360</span>
+                    </span>
+                    <p class="text-gray-400 max-w-sm text-lg">
+                        El ERP que integra inteligencia comercial con seguridad física. Potenciando a las inmobiliarias que construyen el Perú.
+                    </p>
+                </div>
+                <div>
+                    <h5 class="text-lg font-bold text-gold mb-6">Contacto</h5>
+                    <ul class="space-y-4">
+                        <li><a href="mailto:enfoque.ceo@gmail.com" class="text-gray-400 hover:text-white transition-colors">enfoque.ceo@gmail.com</a></li>
+                        <li><a href="https://wa.me/51934441569" class="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors">
+                            <span>WhatsApp: +51 934 441 569</span>
+                        </a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-lg font-bold text-gold mb-6">Legal</h5>
+                    <ul class="space-y-4 text-gray-400">
+                        <li>Políticas de Privacidad</li>
+                        <li>Términos del Servicio</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-white/5 pt-10 text-center text-gray-500 text-sm">
+                <p>&copy; 2026 Enfoque 360 - Todos los derechos reservados.</p>
+                <div class="mt-4 flex justify-center space-x-6">
+                    <span class="hover:text-gold cursor-pointer transition-colors">LinkedIn</span>
+                    <span class="hover:text-gold cursor-pointer transition-colors">Facebook</span>
+                    <span class="hover:text-gold cursor-pointer transition-colors">Instagram</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/51934441569" target="_blank" class="fixed bottom-8 right-8 bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform z-50">
+        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.588-5.946 0-6.556 5.332-11.891 11.887-11.891 3.181 0 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.481 8.403 0 6.556-5.332 11.89-11.888 11.89-2.015 0-3.991-.511-5.741-1.486L0 24zm6.152-3.411l.341.202c1.428.848 3.032 1.295 4.675 1.295 4.887 0 8.867-3.982 8.867-8.867 0-2.358-.918-4.576-2.584-6.244-1.667-1.667-3.886-2.583-6.242-2.583-4.888 0-8.868 3.981-8.868 8.868 0 1.83.564 3.616 1.631 5.161l.223.323-.948 3.465 3.558-.934zM17.507 14.33c-.324-.162-1.921-.947-2.219-1.056-.297-.108-.514-.162-.73.162-.216.324-.838 1.056-1.027 1.272-.19.216-.379.243-.703.081-.324-.162-1.369-.505-2.61-1.611-.963-.859-1.613-1.921-1.803-2.244-.19-.324-.02-.501.127-.678.132-.158.297-.346.446-.518.148-.172.197-.293.297-.487.099-.194.05-.363-.025-.521-.075-.158-.727-1.751-.996-2.399-.263-.631-.53-.545-.73-.555-.188-.01-.403-.012-.619-.012s-.567.081-.864.405c-.297.324-1.135 1.108-1.135 2.701s1.162 3.134 1.324 3.351c.162.216 2.288 3.494 5.542 4.904.774.335 1.378.535 1.85.685.776.246 1.482.212 2.04.13.621-.092 1.921-.784 2.191-1.541.27-.757.27-1.405.189-1.541-.08-.135-.297-.216-.621-.378z"/></svg>
+    </a>
+
+</body>
+</html>
