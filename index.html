@@ -59,8 +59,8 @@
         /* Animaciones Premium */
         .js-enabled .animate-on-scroll {
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(15px);
+            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: opacity, transform;
         }
         .js-enabled .animate-on-scroll.is-visible {
@@ -69,8 +69,8 @@
         }
         .js-enabled .animate-fade-in {
             opacity: 0;
-            transform: scale(0.95);
-            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: scale(0.98);
+            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: opacity, transform;
         }
         .js-enabled .animate-fade-in.is-visible {
@@ -1022,34 +1022,34 @@
                         observer.unobserve(entry.target);
                     }
                 });
-            }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+            }, { threshold: 0.05, rootMargin: "0px 0px 50px 0px" });
 
             // Inyectamos las clases dinámicamente para mantener el HTML limpio
             const animationGroups = [
                 { select: '.hero-gradient .text-center', class: 'animate-on-scroll' },
-                { select: '.hero-gradient .relative.group', class: 'animate-fade-in', delay: 200 },
+                { select: '.hero-gradient .relative.group', class: 'animate-fade-in', delay: 100 },
                 { select: '#ecosistema .max-w-3xl', class: 'animate-on-scroll' },
-                { select: '#ecosistema article', class: 'animate-on-scroll', stagger: 150 },
+                { select: '#ecosistema article', class: 'animate-on-scroll', stagger: 75 },
                 { select: '#problemas .text-center', class: 'animate-on-scroll' },
-                { select: '#problemas .grid > div', class: 'animate-on-scroll', stagger: 150 },
-                { select: '.bg-forest-dark .flex-col > div, .bg-forest-dark .flex-1', class: 'animate-on-scroll', stagger: 100 }, 
+                { select: '#problemas .grid > div', class: 'animate-on-scroll', stagger: 75 },
+                { select: '.bg-forest-dark .flex-col > div, .bg-forest-dark .flex-1', class: 'animate-on-scroll', stagger: 50 }, 
                 { select: '#modulos .text-center', class: 'animate-on-scroll' },
-                { select: '#modulos .grid > div', class: 'animate-on-scroll', stagger: 100 },
-                { select: '#modulos .mt-12', class: 'animate-on-scroll', delay: 200 },
+                { select: '#modulos .grid > div', class: 'animate-on-scroll', stagger: 50 },
+                { select: '#modulos .mt-12', class: 'animate-on-scroll', delay: 100 },
                 { select: '#nominas h2', class: 'animate-on-scroll' },
-                { select: '#nominas .space-y-4 > div', class: 'animate-on-scroll', stagger: 120 },
-                { select: '#nominas .relative > div:last-child', class: 'animate-fade-in', delay: 200 },
+                { select: '#nominas .space-y-4 > div', class: 'animate-on-scroll', stagger: 60 },
+                { select: '#nominas .relative > div:last-child', class: 'animate-fade-in', delay: 100 },
                 { select: '#gestor-doc .order-1', class: 'animate-on-scroll' },
-                { select: '#gestor-doc .order-2 .space-y-4 > div, #gestor-doc .order-1 .space-y-4 > div', class: 'animate-on-scroll', stagger: 120 },
-                { select: '#gestor-doc .order-2 .relative:not(.order-2)', class: 'animate-fade-in', delay: 200 },
+                { select: '#gestor-doc .order-2 .space-y-4 > div, #gestor-doc .order-1 .space-y-4 > div', class: 'animate-on-scroll', stagger: 60 },
+                { select: '#gestor-doc .order-2 .relative:not(.order-2)', class: 'animate-fade-in', delay: 100 },
                 { select: '#videos .max-w-3xl:first-child', class: 'animate-on-scroll' },
-                { select: '#videos article', class: 'animate-on-scroll', stagger: 150 },
+                { select: '#videos article', class: 'animate-on-scroll', stagger: 75 },
                 { select: '#solucion .text-center', class: 'animate-on-scroll' },
                 { select: '#solucion > div > div > div:first-child', class: 'animate-on-scroll' },
-                { select: '#solucion .space-y-6 > div', class: 'animate-on-scroll', stagger: 150 },
-                { select: '#solucion .shadow-2xl', class: 'animate-fade-in', delay: 300 },
+                { select: '#solucion .space-y-6 > div', class: 'animate-on-scroll', stagger: 75 },
+                { select: '#solucion .shadow-2xl', class: 'animate-fade-in', delay: 150 },
                 { select: '.py-24 .text-center', class: 'animate-on-scroll' },
-                { select: '.py-24 .grid > div', class: 'animate-on-scroll', stagger: 200 },
+                { select: '.py-24 .grid > div', class: 'animate-on-scroll', stagger: 100 },
                 { select: '.bg-gray-50 .bg-white', class: 'animate-fade-in' }
             ];
 
