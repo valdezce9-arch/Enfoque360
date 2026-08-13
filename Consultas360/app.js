@@ -174,6 +174,11 @@ function initTabs() {
 /* ---------- carga y errores ---------- */
 const RESULTADOS = $("#resultados");
 function limpiarResultados() { RESULTADOS.innerHTML = ""; }
+function scrollAResultados() {
+    // Desplaza la vista hasta el área de resultados al iniciar la consulta
+    const r = document.getElementById("resultados");
+    if (r) r.scrollIntoView({ behavior: "smooth", block: "start" });
+}
 function agregarConAnimacion(card) {
     // Las tarjetas creadas dinámicamente NO son observadas por el IntersectionObserver
     // de la página (solo ve los elementos del HTML inicial). Sin esto quedan con
@@ -583,6 +588,7 @@ function consultar(route, valor, renderFn, tipo) {
     const card = el("div", "glass-card rounded-2xl p-8 text-center animate-in");
     card.appendChild(el("p", "text-white/70", "Consultando…"));
     agregarConAnimacion(card);
+    scrollAResultados();
 
     fetch(API_BASE + route, { cache: "no-store" })
         .then(async (resp) => {
@@ -660,6 +666,7 @@ function initFmv() {
         const card = el("div", "glass-card rounded-2xl p-8 text-center animate-in");
         card.appendChild(el("p", "text-white/70", "Consultando " + dnis.length + " DNI(s)…"));
         agregarConAnimacion(card);
+        scrollAResultados();
 
         $("#progreso-fmv").classList.remove("hidden");
         $("#barra-fmv").classList.add("progress-anim");
