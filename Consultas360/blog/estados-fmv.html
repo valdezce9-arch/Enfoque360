@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estados de postulación Techo Propio: qué significa cada uno</title>
+<meta name="description" content="INSCRITO, ELEGIBLE, BENEFICIARIO, BENEFICIARIO POR DESEMBOLSAR y DESEMBOLSADO: qué significa cada estado de tu postulación Techo Propio y qué sigue después.">
+<link rel="canonical" href="https://enfoque360.pe/Consultas360/blog/estados-fmv.html">
+<meta property="og:title" content="Estados de postulación Techo Propio: qué significa cada uno">
+<meta property="og:description" content="INSCRITO, ELEGIBLE, BENEFICIARIO, BENEFICIARIO POR DESEMBOLSAR y DESEMBOLSADO: qué significa cada estado de tu postulación Techo Propio y qué sigue después.">
+<meta property="og:type" content="article">
+<link rel="icon" type="image/webp" href="../logo_enfoque.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+    theme: { extend: {
+        colors: { forest: { light: '#558c84', DEFAULT: '#2d5f59', dark: '#1a3d39', deeper: '#0f2a27' }, gold: { light: '#f0ead2', DEFAULT: '#c9ba8b', dark: '#a8996a' } },
+        fontFamily: { sans: ['Outfit', 'system-ui', 'sans-serif'] }
+    } }
+}
+</script>
+<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<style>
+html { scroll-behavior: smooth; }
+body { background: #0d1817; }
+::selection { background: #c9ba8b; color: #0d1817; }
+.glass { background: rgba(255,255,255,0.04); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.08); }
+.glass-card { background: rgba(255,255,255,0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.10); }
+.hero-gradient { background: linear-gradient(135deg, #0f2a27 0%, #122420 55%, #0d1817 100%); }
+.articulo h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2.2rem; margin-bottom: .8rem; color: #f0ead2; }
+.articulo p { color: rgba(255,255,255,.72); line-height: 1.75; margin-bottom: 1rem; }
+.articulo ul { list-style: none; margin-bottom: 1.2rem; }
+.articulo ul li { padding-left: 1.4rem; position: relative; color: rgba(255,255,255,.72); margin-bottom: .5rem; }
+.articulo ul li::before { content: '→'; position: absolute; left: 0; color: #c9ba8b; }
+.articulo a { color: #c9ba8b; text-decoration: underline; }
+</style>
+</head>
+<body class="font-sans text-[#e8edec] antialiased">
+
+<nav class="fixed w-full top-0 z-50 glass" x-data="{{ open: false }}">
+    <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+        <a href="../index.html" class="flex items-center gap-2.5">
+            <img src="../logo_enfoque.webp" alt="Consultas 360" class="h-9 brightness-0 invert">
+            <span class="font-bold">Consultas <span class="text-gold">360</span></span>
+        </a>
+        <div class="hidden md:flex items-center gap-6 text-sm font-medium">
+            <a href="../index.html#consultas" class="text-white/80 hover:text-gold">Consultar</a>
+            <a href="../index.html#servicios" class="text-white/80 hover:text-gold">Servicios</a>
+            <a href="../index.html#blog" class="text-white/80 hover:text-gold">Blog</a>
+            <a href="https://wa.me/51934441569" class="bg-gold hover:bg-gold-dark text-[#0d1817] font-semibold px-5 py-2 rounded-full transition">Solicitar Demo</a>
+        </div>
+        <button @click="open = !open" class="md:hidden text-white/90" aria-label="Menú">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+    </div>
+    <div x-show="open" x-cloak class="md:hidden glass border-t border-white/10 px-4 pb-5 pt-2 space-y-1">
+        <a href="../index.html#consultas" class="block py-2.5 text-white/85 hover:text-gold">Consultar</a>
+        <a href="../index.html#servicios" class="block py-2.5 text-white/85 hover:text-gold">Servicios</a>
+        <a href="../index.html#blog" class="block py-2.5 text-white/85 hover:text-gold">Blog</a>
+        <a href="https://wa.me/51934441569" class="block py-2.5 text-gold font-semibold">Solicitar Demo →</a>
+    </div>
+</nav>
+
+<header class="hero-gradient pt-28 pb-12">
+    <div class="max-w-4xl mx-auto px-4">
+        <span class="bg-gold/15 text-gold text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-widest">Techo Propio · Fondo Mivivienda</span>
+        <h1 class="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight leading-tight">Estados de postulación Techo Propio: qué significa cada uno</h1>
+        <p class="mt-4 text-lg text-white/65">Si postulaste al Fondo Mivivienda, tu trámite pasa por estados oficiales que muestran en qué etapa está tu beneficio. Te los explicamos en orden, sin tecnicismos.</p>
+    </div>
+</header>
+<main class="max-w-4xl mx-auto px-4 py-12"><article class="articulo">
+<h2>El orden de los estados</h2>
+<p>Cada postulación avanza por una línea oficial. El historial de tu trámite registra todas las transiciones y sus fechas, así que siempre puedes ver el recorrido completo:</p>
+<ul>
+<li><strong>INSCRITO</strong> — Registraste tu postulación ante el Fondo Mivivienda. El sistema guardó tus datos y tu formulario.</li>
+<li><strong>ELEGIBLE</strong> — Cumples los requisitos (ahorro, ingresos, no tener otra vivienda). Entras a la lista de elegibles con puntaje según convocatoria.</li>
+<li><strong>BENEFICIARIO</strong> — ¡El FMV te asignó el beneficio! Ya tienes un Bono Familiar Habitacional (BFH) a tu nombre, con monto y proyecto.</li>
+<li><strong>BENEFICIARIO EN REVISIÓN</strong> — El FMV valida la documentación final de tu compra (contrato, IFI, promotor). Puede durar poco.</li>
+<li><strong>BENEFICIARIO POR DESEMBOLSAR</strong> — Todo está aprobado: el bono está listo para entregarse al promotor o IFI.</li>
+<li><strong>BENEFICIARIO DESEMBOLSADO</strong> — El bono fue pagado. Tu vivienda quedó financiada con el BFH más tu ahorro y crédito.</li>
+</ul>
+<h2>Qué datos acompañan a tu estado</h2>
+<p>Cuando ya eres beneficiario, junto al estado verás los datos de tu proyecto: <strong>valor de la vivienda</strong>, <strong>monto de ahorro</strong>, <strong>valor del BFH</strong>, <strong>monto de crédito</strong>, <strong>CUH</strong>, manzana, lote, etapa, modelo y el <strong>promotor</strong> a cargo. Esos montos son los que el FMV usó para financiar tu vivienda.</p>
+<h2>Cómo ver tu historial completo</h2>
+<p>Con solo tu DNI puedes ver el estado actual y todo el recorrido con fechas, gratis:</p>
+<ul>
+<li>Entra a la pestaña <strong>Techo Propio</strong> de Consultas 360.</li>
+<li>Escribe tu DNI (o pega varios DNIs para un lote de hasta 10).</li>
+<li>Revisa el <strong>timeline</strong> con cada estado y sus fechas, más la tarjeta del proyecto si ya eres beneficiario.</li>
+</ul>
+<h2>¿El estado dice 'ELEGIBLE' y no avanza?</h2>
+<p>Es normal: entre ELEGIBLE y BENEFICIARIO hay una convocatoria y asignación por orden de prioridad. Revisa periódicamente tu estado; cuando se asigne el beneficio, aparecerá el proyecto.</p>
+
+        <div class="glass-card rounded-2xl p-6 mt-6 mb-4 text-center">
+            <p class="font-bold text-lg">👉 Revisa el estado de tu postulación ahora</p>
+            <a href="../index.html#consultas" class="inline-block mt-3 bg-gold hover:bg-gold-dark text-[#0d1817] font-bold px-7 py-3 rounded-xl transition hover:scale-105">Consultar con mi DNI</a>
+        </div>
+<p class="mt-8 pt-4 border-t border-white/10 text-sm text-white/45">También te puede interesar: <a href="estado-techo-propio.html">cómo consultar tu postulación</a> · <a href="consultar-ruc-gratis.html">consultar el RUC de una empresa</a></p>
+</article></main>
+
+<footer class="bg-[#1c1c1a] text-white pt-12 pb-8">
+    <div class="max-w-4xl mx-auto px-4 text-sm text-white/55 flex flex-col md:flex-row justify-between gap-6">
+        <div>
+            <img src="../logo_enfoque.webp" alt="Enfoque 360" class="h-10 brightness-0 invert mb-3">
+            <p class="text-xs text-white/40">© 2026 Enfoque 360 · Consultas 360. Información de fuentes públicas. Datos personales protegidos (Ley N.º 29733).</p>
+        </div>
+        <div class="space-x-4 text-xs">
+            <a href="../index.html#consultas" class="hover:text-gold">Consultar</a>
+            <a href="../index.html#blog" class="hover:text-gold">Guías</a>
+            <a href="https://wa.me/51934441569" class="hover:text-gold">WhatsApp</a>
+        </div>
+    </div>
+</footer>
+
+<a href="https://wa.me/51934441569" class="fixed bottom-8 right-8 z-50" aria-label="WhatsApp">
+    <span class="absolute inset-0 rounded-full bg-[#25D366] animate-ping opacity-20"></span>
+    <span class="relative flex items-center justify-center w-14 h-14 rounded-full bg-[#25D366] shadow-xl" style="box-shadow: 0 10px 25px rgba(37,211,102,.4)">
+        <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.83 14.12c-.25.7-1.45 1.33-2 1.38-.51.05-1.15.07-1.86-.12-.43-.12-.99-.32-1.7-.63-3-1.3-4.96-4.32-5.11-4.52-.15-.2-1.22-1.63-1.22-3.11 0-1.48.78-2.21 1.05-2.51.28-.3.6-.38.8-.38.2 0 .4 0 .58.01.19.01.44-.07.68.53.25.6.85 2.07.93 2.22.07.15.12.33.02.53-.1.2-.15.32-.3.5-.15.17-.31.39-.45.52-.15.15-.3.31-.13.61.17.3.76 1.25 1.63 2.03 1.12 1 2.06 1.31 2.35 1.46.3.15.47.13.64-.08.17-.2.74-.86.93-1.16.2-.3.4-.25.67-.15.27.1 1.73.82 2.03.97.3.15.5.22.57.35.07.13.07.73-.18 1.43z"/></svg>
+    </span>
+</a>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {{
+    const obs = new IntersectionObserver((es) => es.forEach((e) => {{ if (e.isIntersecting) {{ e.target.classList.add("is-visible"); obs.unobserve(e.target); }} }}), {{ rootMargin: "0px 0px 100px 0px" }});
+    document.querySelectorAll(".animate-in").forEach((n) => obs.observe(n));
+}});
+</script>
+</body>
+</html>

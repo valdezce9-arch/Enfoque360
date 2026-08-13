@@ -1,0 +1,23 @@
+# ============================================================
+# .gitignore — Enfoque 360 (repo público desplegado en GitHub Pages)
+# PROTECCIÓN: nunca subir archivos con endpoints de terceros,
+# credenciales o scripts de scraping a este repositorio.
+# ============================================================
+
+# Archivos sensibles de consultas (endpoints/credenciales)
+consultas-*.txt
+consulta-*.py
+Consulta*.py
+*.py
+
+# Credenciales y configuraciones locales
+.env
+.env.*
+*.db
+*.sqlite
+*.sqlite3
+
+# Sistemas / editor
+.DS_Store
+Thumbs.db
+node_modules/

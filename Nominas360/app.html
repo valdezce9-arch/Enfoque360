@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nominas 360 — Planillas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        forest: { light: '#558c84', DEFAULT: '#2d5f59', dark: '#1a3d39' },
+                        gold: { light: '#f0ead2', DEFAULT: '#c9ba8b', dark: '#a8996a' }
+                    },
+                    fontFamily: { sans: ['Outfit', 'system-ui', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+        [x-cloak] { display: none !important; }
+        .tab-active { border-bottom: 2px solid #2d5f59; color: #2d5f59; font-weight: 600; }
+    </style>
+</head>
+<body class="bg-[#faf9f7] text-[#1c1c1a] font-sans antialiased">
+
+<div x-data="app" x-cloak class="min-h-screen flex flex-col">
+
+    <!-- NAV -->
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-3">
+                    <img src="../logo_enfoque.webp" alt="Enfoque 360" class="h-9">
+                    <span class="text-lg font-black text-forest">Nominas <span class="text-gold-dark">360</span></span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="text-xs text-gray-400">{{ anio }} | UIT S/ {{ uit.toLocaleString() }}</span>
+                </div>
+            </div>
+            <div class="flex gap-6 -mb-px text-sm">
+                <template x-for="tab in tabs" :key="tab.key">
+                    <button @click="tabActual = tab.key"
+                        :class="tabActual === tab.key ? 'tab-active' : 'text-gray-400 hover:text-gray-600'"
+                        class="pb-3 px-1 transition-colors border-b-2 border-transparent">
+                        <span x-text="tab.label"></span>
+                        <span x-show="tab.key==='planilla' && countPendientes>0"
+                            class="ml-1.5 px-1.5 py-0.5 text-[10px] bg-amber-100 text-amber-700 rounded-full font-bold"
+                            x-text="countPendientes"></span>
+                    </button>
+                </template>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 py-8 w-full">
+
+        <!-- ===== TRABAJADORES ===== -->
+        <div x-show="tabActual === 'trabajadores'" x-cloak>
+
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-black tracking-tight">Trabajadores</h2>
+                <button @click="abrirFormulario()" class="px-4 py-2 bg-forest text-white text-sm font-bold rounded-xl hover:bg-forest-dark transition-all active:scale-[0.97]">+ Nuevo</button>
+            </div>
+
+            <!-- Formulario -->
+            <div x-show="mostrarFormulario" x-cloak class="bg-white rounded-2xl p-6 border border-gray-200 mb-6 shadow-sm">
+                <h3 class="font-bold text-lg mb-4" x-text="editando ? 'Editar Trabajador' : 'Nuevo Trabajador'"></h3>
+                <div class="grid md:grid-cols-3 gap-4 mb-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-500 mb-1">DNI</label>
+                        <input x-model="form.dni" type="text" maxlength="8" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-forest/20 focus:border-forest outline-none">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-semibold text-gray-500 mb-1">Nombres</label>
+                        <input x-model="form.nombres" type="text" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-forest/20 focus:border-forest outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-500 mb-1">Sueldo Mensual (S/)</label>
+                        <input x-model="form.sueldo" type="number" step="0.01" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-forest/20 focus:border-forest outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-500 mb-1">Gratificación Julio (S/)</label>
+                        <input x-model="form.gratifJulio" type="number" step="0.01" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-forest/20 focus:border-forest outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-500 mb-1">Gratificación Diciembre (S/)</label>
+                        <input x-model="form.gratifDiciembre" type="number" step="0.01" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-forest/20 focus:border-forest outline-none">
+                    </div>
+                </div>
+                <div class="flex gap-2">
+                    <button @click="guardarTrabajador()" class="px-5 py-2 bg-forest text-white text-sm font-bold rounded-xl hover:bg-forest-dark transition-all active:scale-[0.97]">Guardar</button>
+                    <button @click="mostrarFormulario = false" class="px-5 py-2 bg-gray-100 text-gray-600 text-sm font-bold rounded-xl hover:bg-gray-200 transition-all">Cancelar</button>
+                </div>
+            </div>
+
+            <!-- Tabla -->
+            <div x-show="trabajadores.length === 0" class="text-center py-16 text-gray-400">
+                <p class="text-5xl mb-4">👤</p>
+                <p class="font-semibold">No hay trabajadores registrados</p>
+                <p class="text-sm mt-1">Crea tu primer trabajador para empezar</p>
+            </div>
+            <div x-show="trabajadores.length > 0" class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
+                <table class="w-full text-sm">
+                    <thead class="bg-gray-50 text-left">
+                        <tr>
+                            <th class="px-4 py-3 font-semibold text-gray-500 text-xs uppercase">DNI</th>
+                            <th class="px-4 py-3 font-semibold text-gray-500 text-xs uppercase">Nombres</th>
+                            <th class="px-4 py-3 font-semibold text-gray-500 text-xs uppercase">Sueldo</th>
+                            <th class="px-4 py-3 font-semibold text-gray-500 text-xs uppercase">Gratif. Jul</th>
+                            <th class="px-4 py-3 font-semibold text-gray-500 text-xs uppercase">Gratif. Dic</th>
+                            <th class="px-4 py-3"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        <template x-for="(w, i) in trabajadores" :key="w.id">
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-3 font-mono" x-text="w.dni"></td>
+                                <td class="px-4 py-3 font-medium" x-text="w.nombres"></td>
+                                <td class="px-4 py-3" x-text="'S/ ' + Number(w.sueldo).toFixed(2)"></td>
+                                <td class="px-4 py-3" x-text="'S/ ' + Number(w.gratifJulio).toFixed(2)"></td>
+                                <td class="px-4 py-3" x-text="'S/ ' + Number(w.gratifDiciembre).toFixed(2)"></td>
+                                <td class="px-4 py-3 text-right">
+                                    <button @click="editarTrabajador(i)" class="text-xs text-forest hover:underline font-semibold">Editar</button>
+                                    <button @click="eliminarTrabajador(i)" class="text-xs text-red-400 hover:underline font-semibold ml-3">Eliminar</button>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ===== PLANILLA ===== -->
+        <div x-show="tabActual === 'planilla'" x-cloak>
+
+            <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                <h2 class="text-2xl font-black tracking-tight">Planilla Mensual</h2>
+                <div class="flex items-center gap-3">
+                    <select x-model="mesSel" class="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white">
+                        <template x-for="m in 12" :key="m">
+                            <option :value="m" x-text="nombresMes[m-1]"></option>
+                        </template>
+                    </select>
+                    <select x-model="anioSel" class="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white">
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                    </select>
+                    <button @click="procesarPlanilla()" :disabled="procesando || trabajadores.length===0"
+                        class="px-5 py-2 bg-forest text-white text-sm font-bold rounded-xl hover:bg-forest-dark transition-all active:scale-[0.97] disabled:opacity-40 disabled:cursor-not-allowed"
+                        x-text="procesando ? 'Procesando...' : 'Procesar Mes'"></button>
+                </div>
+            </div>
+
+            <div x-show="trabajadores.length === 0" class="text-center py-16 text-gray-400 bg-white rounded-2xl border border-gray-200">
+                <p class="font-semibold">Registra trabajadores primero</p>
+                <p class="text-sm mt-1">Ve a la pestaña Trabajadores para agregar personal</p>
+            </div>
+
+            <div x-show="trabajadores.length > 0 && !periodoProcesado" class="text-center py-16 text-gray-400 bg-white rounded-2xl border border-gray-200">
+                <p class="text-4xl mb-3">📋</p>
+                <p class="font-semibold">Periodo no procesado aún</p>
+                <p class="text-sm mt-1">Presiona "Procesar Mes" para calcular la planilla</p>
+            </div>
+
+            <!-- Resultados -->
+            <div x-show="resultadosMes.length > 0">
+                <div class="grid md:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
+                        <p class="text-xs text-gray-400 uppercase font-semibold">Trabajadores</p>
+                        <p class="text-2xl font-black text-forest" x-text="resultadosMes.length"></p>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
+                        <p class="text-xs text-gray-400 uppercase font-semibold">Masa Salarial</p>
+                        <p class="text-lg font-black text-[#1c1c1a]" x-text="'S/ ' + totalMasaSalarial.toFixed(2)"></p>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
+                        <p class="text-xs text-gray-400 uppercase font-semibold">Renta 5ta (mes)</p>
+                        <p class="text-lg font-black text-gold-dark" x-text="'S/ ' + totalRetencionMes.toFixed(2)"></p>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
+                        <p class="text-xs text-gray-400 uppercase font-semibold">Renta 5ta (YTD)</p>
+                        <p class="text-lg font-black text-gold-dark" x-text="'S/ ' + totalRetencionYTD.toFixed(2)"></p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-50 text-left">
+                            <tr>
+                                <th class="px-4 py-3 font-semibold text-gray-500 text-xs uppercase">Trabajador</th>
+                                <th class="px-4 py-3 font-semibold text-gray-500 text-xs uppercase">Sueldo</th>
+                                <th class="px-4 py-3 font-semibold text-gray-500 text-xs uppercase">Proy. Anual</th>
+                                <th class="px-4 py-3 font-semibold text-gray-500 text-xs uppercase">Renta Neta</th>
+                                <th class="px-4 py-3 font-semibold text-gray-500 text-xs uppercase">Imp. Anual</th>
+                                <th class="px-4 py-3 font-semibold text-gray-500 text-xs uppercase">Ret. Base</th>
+                                <th class="px-4 py-3 font-semibold text-gray-500 text-xs uppercase">Ret. Adic</th>
+                                <th class="px-4 py-3 font-semibold text-gray-500 text-xs uppercase bg-amber-50 text-amber-800">Ret. Total</th>
+                                <th class="px-4 py-3"></th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            <template x-for="(r, i) in resultadosMes" :key="r.dni">
+                                <tr class="hover:bg-gray-50" :class="r.estaExonerado ? 'opacity-50' : ''">
+                                    <td class="px-4 py-3">
+                                        <span class="font-medium" x-text="r.nombres"></span>
+                                        <span class="text-xs text-gray-400 block font-mono" x-text="r.dni"></span>
+                                    </td>
+                                    <td class="px-4 py-3" x-text="'S/ ' + r.sueldo.toFixed(2)"></td>
+                                    <td class="px-4 py-3 font-mono text-xs" x-text="'S/ ' + r.ingresoBrutoAnual.toFixed(2)"></td>
+                                    <td class="px-4 py-3 font-mono text-xs" x-text="r.rentaNeta > 0 ? 'S/ ' + r.rentaNeta.toFixed(2) : '—'"></td>
+                                    <td class="px-4 py-3 font-mono text-xs" x-text="r.impuestoAnual > 0 ? 'S/ ' + r.impuestoAnual.toFixed(2) : '—'"></td>
+                                    <td class="px-4 py-3 font-mono" x-text="r.retencionBase > 0 ? 'S/ ' + r.retencionBase.toFixed(2) : '—'"></td>
+                                    <td class="px-4 py-3 font-mono" x-text="r.retencionAdicional > 0 ? 'S/ ' + r.retencionAdicional.toFixed(2) : '—'"></td>
+                                    <td class="px-4 py-3 font-mono font-bold bg-amber-50/50" x-text="r.retencionTotal > 0 ? 'S/ ' + r.retencionTotal.toFixed(2) : 'Exonerado'"></td>
+                                    <td class="px-4 py-3 text-right">
+                                        <button @click="verDetalle(r)" class="text-xs text-forest hover:underline font-semibold">Detalle</button>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Modal detalle -->
+            <div x-show="detalleActivo" x-cloak class="fixed inset-0 bg-black/30 flex items-center justify-center z-50 p-4" @click.self="detalleActivo = false">
+                <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-xl max-h-[80vh] overflow-y-auto">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="font-bold text-lg" x-text="detalle.nombres"></h3>
+                            <p class="text-xs text-gray-400 font-mono" x-text="detalle.dni"></p>
+                        </div>
+                        <button @click="detalleActivo = false" class="text-gray-400 hover:text-gray-600 text-xl">&times;</button>
+                    </div>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex justify-between py-2 border-b border-gray-100">
+                            <span class="text-gray-500">Remuneración Mensual</span>
+                            <span class="font-semibold" x-text="'S/ ' + detalle.sueldo.toFixed(2)"></span>
+                        </div>
+                        <div class="flex justify-between py-2 border-b border-gray-100">
+                            <span class="text-gray-500">Ingreso Bruto Anual Proyectado</span>
+                            <span class="font-semibold" x-text="'S/ ' + detalle.ingresoBrutoAnual.toFixed(2)"></span>
+                        </div>
+                        <div class="flex justify-between py-2 border-b border-gray-100">
+                            <span class="text-gray-500">Deducción 7 UIT</span>
+                            <span class="font-semibold text-red-500" x-text="'− S/ ' + detalle.deduccion7UIT.toFixed(2)"></span>
+                        </div>
+                        <div class="flex justify-between py-2 border-b border-gray-100">
+                            <span class="text-gray-500">Renta Neta Anual</span>
+                            <span class="font-semibold" x-text="detalle.rentaNeta > 0 ? 'S/ ' + detalle.rentaNeta.toFixed(2) : 'Exonerado'"></span>
+                        </div>
+                        <template x-if="detalle.desglose && detalle.desglose.length > 0">
+                            <div>
+                                <p class="text-xs text-gray-400 uppercase font-semibold mb-2 mt-3">Desglose por tramos</p>
+                                <template x-for="t in detalle.desglose" :key="t.tramo">
+                                    <div class="flex justify-between py-1.5 text-xs pl-2 border-l-2 border-gold/50 ml-1">
+                                        <span x-text="t.tramo + ' (' + (t.tasa*100) + '%)'"></span>
+                                        <span x-text="'S/ ' + t.porcion.toFixed(2) + ' → S/ ' + t.impuesto.toFixed(2)"></span>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                        <div class="flex justify-between py-3 border-t-2 border-forest font-bold text-forest">
+                            <span>Impuesto Anual Proyectado</span>
+                            <span x-text="'S/ ' + detalle.impuestoAnual.toFixed(2)"></span>
+                        </div>
+                        <div class="flex justify-between py-2 border-b border-gray-100">
+                            <span class="text-gray-500">Retención Base del Mes</span>
+                            <span class="font-semibold" x-text="'S/ ' + detalle.retencionBase.toFixed(2)"></span>
+                        </div>
+                        <div x-show="detalle.retencionAdicional > 0" class="flex justify-between py-2 border-b border-gray-100">
+                            <span class="text-gray-500">Retención Adicional (extraordinarios)</span>
+                            <span class="font-semibold" x-text="'S/ ' + detalle.retencionAdicional.toFixed(2)"></span>
+                        </div>
+                        <div class="flex justify-between py-3 text-lg font-black text-gold-dark">
+                            <span>Total a Retener este Mes</span>
+                            <span x-text="'S/ ' + detalle.retencionTotal.toFixed(2)"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== HISTORIAL ===== -->
+        <div x-show="tabActual === 'historial'" x-cloak>
+            <h2 class="text-2xl font-black tracking-tight mb-6">Historial Anual</h2>
+
+            <div x-show="mesesProcesados.length === 0" class="text-center py-16 text-gray-400 bg-white rounded-2xl border border-gray-200">
+                <p class="font-semibold">No hay meses procesados</p>
+                <p class="text-sm mt-1">Procesa meses desde la pestaña Planilla</p>
+            </div>
+
+            <div x-show="mesesProcesados.length > 0">
+                <div class="grid md:grid-cols-5 gap-4 mb-6">
+                    <div class="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
+                        <p class="text-xs text-gray-400 uppercase font-semibold">Meses Proc.</p>
+                        <p class="text-2xl font-black text-forest" x-text="mesesProcesados.length"></p>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
+                        <p class="text-xs text-gray-400 uppercase font-semibold">Masa Salarial Total</p>
+                        <p class="text-lg font-black" x-text="'S/ ' + totalAnualMasa.toFixed(2)"></p>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
+                        <p class="text-xs text-gray-400 uppercase font-semibold">Retenido YTD</p>
+                        <p class="text-lg font-black text-gold-dark" x-text="'S/ ' + totalAnualRetenido.toFixed(2)"></p>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
+                        <p class="text-xs text-gray-400 uppercase font-semibold">Impuesto Anual Est.</p>
+                        <p class="text-lg font-black text-gold-dark" x-text="'S/ ' + totalAnualImpuesto.toFixed(2)"></p>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
+                        <p class="text-xs text-gray-400 uppercase font-semibold">Por Regularizar</p>
+                        <p class="text-lg font-black" :class="totalPorRegularizar > 0 ? 'text-amber-600' : 'text-green-600'" x-text="'S/ ' + totalPorRegularizar.toFixed(2)"></p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-50 text-left">
+                            <tr>
+                                <th class="px-4 py-3 font-semibold text-gray-500 text-xs uppercase">Período</th>
+                                <th class="px-4 py-3 font-semibold text-gray-500 text-xs uppercase">Trab.</th>
+                                <th class="px-4 py-3 font-semibold text-gray-500 text-xs uppercase">Masa Salarial</th>
+                                <th class="px-4 py-3 font-semibold text-gray-500 text-xs uppercase">Ret. Mes</th>
+                                <th class="px-4 py-3 font-semibold text-gray-500 text-xs uppercase">Ret. Acum.</th>
+                                <th class="px-4 py-3 font-semibold text-gray-500 text-xs uppercase">Imp. Anual Est.</th>
+                                <th class="px-4 py-3"></th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            <template x-for="(m, i) in mesesProcesados" :key="m.periodo">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-3 font-medium" x-text="m.periodo"></td>
+                                    <td class="px-4 py-3" x-text="m.totalTrabajadores"></td>
+                                    <td class="px-4 py-3" x-text="'S/ ' + m.totalMasa.toFixed(2)"></td>
+                                    <td class="px-4 py-3 font-mono font-semibold text-gold-dark" x-text="'S/ ' + m.totalRetencion.toFixed(2)"></td>
+                                    <td class="px-4 py-3 font-mono" x-text="'S/ ' + m.acumulado.toFixed(2)"></td>
+                                    <td class="px-4 py-3 font-mono text-xs" x-text="'S/ ' + m.totalImpuesto.toFixed(2)"></td>
+                                    <td class="px-4 py-3 text-right">
+                                        <button @click="verMesDetalle(i)" class="text-xs text-forest hover:underline font-semibold">Ver</button>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Modal detalle de mes -->
+            <div x-show="detalleMesActivo" x-cloak class="fixed inset-0 bg-black/30 flex items-center justify-center z-50 p-4" @click.self="detalleMesActivo = false">
+                <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-xl max-h-[80vh] overflow-y-auto">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="font-bold text-lg" x-text="'Detalle — ' + detalleMesPeriodo"></h3>
+                        <button @click="detalleMesActivo = false" class="text-gray-400 hover:text-gray-600 text-xl">&times;</button>
+                    </div>
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-50 text-left">
+                            <tr>
+                                <th class="px-3 py-2 font-semibold text-gray-500 text-xs uppercase">Trabajador</th>
+                                <th class="px-3 py-2 font-semibold text-gray-500 text-xs uppercase">Sueldo</th>
+                                <th class="px-3 py-2 font-semibold text-gray-500 text-xs uppercase">Imp. Anual</th>
+                                <th class="px-3 py-2 font-semibold text-gray-500 text-xs uppercase">Ret. Mes</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            <template x-for="r in detalleMesResultados" :key="r.dni">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-3 py-2">
+                                        <span class="font-medium" x-text="r.nombres"></span>
+                                        <span class="text-xs text-gray-400 block font-mono" x-text="r.dni"></span>
+                                    </td>
+                                    <td class="px-3 py-2" x-text="'S/ ' + r.sueldo.toFixed(2)"></td>
+                                    <td class="px-3 py-2 font-mono text-xs" x-text="r.impuestoAnual > 0 ? 'S/ ' + r.impuestoAnual.toFixed(2) : '—'"></td>
+                                    <td class="px-3 py-2 font-mono font-bold text-gold-dark" x-text="r.retencionTotal > 0 ? 'S/ ' + r.retencionTotal.toFixed(2) : 'Exonerado'"></td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="text-center text-xs text-gray-400 py-6 border-t border-gray-100">
+        &copy; 2026 Enfoque 360 — Nominas 360
+    </footer>
+</div>
+
+<script src="js/quinta-categoria.js"></script>
+<script>
+document.addEventListener('alpine:init', () => {
+    const Q = QuintaCategoria;
+    const uitPorAnio = window.uitPorAnio;
+    const STORAGE_KEY = 'nominas360_data';
+
+    function cargar() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY)); } catch { return null; } }
+    function guardar(d) { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
+
+    const nombresMes = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre'];
+
+    Alpine.data('app', () => ({
+        tabs: [
+            { key: 'trabajadores', label: 'Trabajadores' },
+            { key: 'planilla', label: 'Planilla' },
+            { key: 'historial', label: 'Historial' },
+        ],
+        tabActual: 'trabajadores',
+        nombresMes,
+        trabajadores: [],
+        mesesData: {},
+        mostrarFormulario: false,
+        editando: null,
+        form: { dni: '', nombres: '', sueldo: '', gratifJulio: '', gratifDiciembre: '' },
+        mesSel: new Date().getMonth() + 1,
+        anioSel: new Date().getFullYear(),
+        procesando: false,
+        resultadosMes: [],
+        detalleActivo: false,
+        detalle: {},
+        detalleMesActivo: false,
+        detalleMesPeriodo: '',
+        detalleMesResultados: [],
+
+        init() {
+            const saved = cargar();
+            if (saved) { this.trabajadores = saved.trabajadores || []; this.mesesData = saved.mesesData || {}; }
+        },
+
+        get anio() { return this.anioSel; },
+        get uit() { return uitPorAnio(this.anioSel) || 5350; },
+        get calc() { return new Q({ anio: this.anioSel }); },
+        get periodoKey() { return this.anioSel + '-' + String(this.mesSel).padStart(2, '0'); },
+        get periodoProcesado() { return !!this.mesesData[this.periodoKey]; },
+
+        get countPendientes() {
+            if (!this.trabajadores.length) return 0;
+            const proc = Object.keys(this.mesesData).filter(k => k.startsWith(String(this.anioSel))).length;
+            return 12 - proc;
+        },
+
+        abrirFormulario() { this.editando = null; this.form = { dni: '', nombres: '', sueldo: '', gratifJulio: '', gratifDiciembre: '' }; this.mostrarFormulario = true; },
+        editarTrabajador(idx) {
+            const w = this.trabajadores[idx];
+            this.editando = idx;
+            this.form = { dni: w.dni, nombres: w.nombres, sueldo: w.sueldo, gratifJulio: w.gratifJulio, gratifDiciembre: w.gratifDiciembre };
+            this.mostrarFormulario = true;
+        },
+        eliminarTrabajador(idx) { if (!confirm('¿Eliminar trabajador?')) return; this.trabajadores.splice(idx, 1); this.persistir(); },
+
+        guardarTrabajador() {
+            const f = this.form;
+            if (!f.dni || !f.nombres || !f.sueldo) return;
+            const data = { dni: f.dni, nombres: f.nombres, sueldo: +f.sueldo || 0, gratifJulio: +f.gratifJulio || 0, gratifDiciembre: +f.gratifDiciembre || 0 };
+            if (this.editando !== null) {
+                this.trabajadores[this.editando] = data;
+            } else {
+                if (this.trabajadores.find(w => w.dni === data.dni)) { alert('DNI ya existe'); return; }
+                this.trabajadores.push(data);
+            }
+            this.persistir();
+            this.mostrarFormulario = false;
+        },
+
+        getRetAcum(dni, mes) {
+            const acc = [];
+            for (let m = 1; m < mes; m++) {
+                const k = this.anioSel + '-' + String(m).padStart(2,'0');
+                if (this.mesesData[k]?.[dni]) acc.push(this.mesesData[k][dni].retencionTotal);
+            }
+            return acc;
+        },
+
+        getExtraPrev(dni, mes) {
+            let t = 0;
+            for (let m = 1; m < mes; m++) {
+                const k = this.anioSel + '-' + String(m).padStart(2,'0');
+                if (this.mesesData[k]?.[dni]) t += this.mesesData[k][dni].ingresosExtraordinariosMes || 0;
+            }
+            return t;
+        },
+
+        procesarPlanilla() {
+            if (this.procesando || !this.trabajadores.length) return;
+            this.procesando = true;
+            const mes = this.mesSel;
+            const calc = this.calc;
+            const resultados = [];
+
+            for (const w of this.trabajadores) {
+                const r = calc.calcularMes({
+                    remuneracionMensual: w.sueldo, mesActual: mes,
+                    gratificaciones: [w.gratifJulio, w.gratifDiciembre],
+                    ingresosExtraordinariosPrevios: this.getExtraPrev(w.dni, mes),
+                    retencionesAcumuladas: this.getRetAcum(w.dni, mes),
+                });
+                resultados.push({ dni: w.dni, nombres: w.nombres, sueldo: w.sueldo, ...r });
+            }
+
+            this.resultadosMes = resultados;
+            const pd = {};
+            for (const r of resultados) pd[r.dni] = r;
+            this.mesesData[this.periodoKey] = pd;
+            this.persistir();
+            this.procesando = false;
+        },
+
+        verDetalle(r) { this.detalle = r; this.detalleActivo = true; },
+
+        get mesesProcesados() {
+            const anio = this.anioSel, meses = [];
+            let acum = 0;
+            for (let m = 1; m <= 12; m++) {
+                const k = anio + '-' + String(m).padStart(2,'0');
+                const d = this.mesesData[k];
+                if (!d) continue;
+                const v = Object.values(d);
+                const ret = v.reduce((a,r) => a+(r.retencionTotal||0), 0);
+                acum += ret;
+                meses.push({ periodo: nombresMes[m-1]+' '+anio, key: k, totalTrabajadores: v.length, totalMasa: v.reduce((a,r) => a+(r.sueldo||0),0), totalRetencion: ret, totalImpuesto: v.reduce((a,r) => a+(r.impuestoAnual||0),0), acumulado: acum });
+            }
+            return meses;
+        },
+
+        get totalAnualMasa() { return this.mesesProcesados.reduce((a,m) => a+m.totalMasa, 0); },
+        get totalAnualRetenido() { const l = this.mesesProcesados; return l.length ? l[l.length-1].acumulado : 0; },
+        get totalAnualImpuesto() { return this.mesesProcesados.reduce((a,m) => a+m.totalImpuesto, 0); },
+        get totalPorRegularizar() { return Math.max(0, this.totalAnualImpuesto - this.totalAnualRetenido); },
+        get totalMasaSalarial() { return this.resultadosMes.reduce((a,r) => a+(r.sueldo||0), 0); },
+        get totalRetencionMes() { return this.resultadosMes.reduce((a,r) => a+(r.retencionTotal||0), 0); },
+
+        get totalRetencionYTD() {
+            let t = 0;
+            for (let m = 1; m <= this.mesSel; m++) {
+                const k = this.anioSel + '-' + String(m).padStart(2,'0');
+                if (this.mesesData[k]) t += Object.values(this.mesesData[k]).reduce((a,r) => a+(r.retencionTotal||0), 0);
+            }
+            return t;
+        },
+
+        verMesDetalle(idx) {
+            const m = this.mesesProcesados[idx];
+            this.detalleMesPeriodo = m.periodo;
+            this.detalleMesResultados = Object.values(this.mesesData[m.key]).map(r => ({ dni: r.dni, nombres: r.nombres, sueldo: r.sueldo, impuestoAnual: r.impuestoAnual, retencionTotal: r.retencionTotal }));
+            this.detalleMesActivo = true;
+        },
+
+        persistir() { guardar({ trabajadores: this.trabajadores, mesesData: this.mesesData }); },
+    }));
+});
+</script>
+<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+</body>
+</html>

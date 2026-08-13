@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nominas 360 | Control de Personal y Planillas</title>
+    <meta name="description" content="App integral para control de trabajadores: asistencias, planillas, contratos, boletas de pago e integracion PLAME y T-Registro SUNAT.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        forest: { light: '#558c84', DEFAULT: '#2d5f59', dark: '#1a3d39' },
+                        gold: { light: '#f0ead2', DEFAULT: '#c9ba8b', dark: '#a8996a' }
+                    },
+                    fontFamily: { sans: ['Outfit', 'system-ui', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+        .animate-in { opacity: 0; transform: translateY(24px); transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1); will-change: opacity, transform; }
+        .animate-in.is-visible { opacity: 1; transform: translateY(0); }
+        .hero-shape { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.12; pointer-events: none; }
+    </style>
+</head>
+<body class="bg-[#faf9f7] text-[#1c1c1a] font-sans antialiased">
+
+    <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-xl border-b border-black/5">
+        <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
+            <div class="flex justify-between h-20 items-center">
+                <a href="../index.html" class="flex items-center">
+                    <img src="../logo_enfoque.webp" alt="Enfoque 360" class="h-12 md:h-14">
+                </a>
+                <div class="hidden md:flex items-center gap-6">
+                    <a href="#funciones" class="text-sm font-semibold text-gray-600 hover:text-forest transition-colors">Funciones</a>
+                    <a href="../index.html" class="text-sm font-semibold text-gray-600 hover:text-forest transition-colors">Todos los productos</a>
+                    <a href="https://wa.me/51934441569" class="px-5 py-2.5 bg-gold text-black rounded-full font-bold text-sm hover:bg-gold-dark transition-all shadow-lg shadow-gold/20 active:scale-[0.97]">Acceso anticipado</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="relative pt-32 pb-24 lg:pt-44 lg:pb-32 bg-gradient-to-br from-amber-50 via-white to-amber-50 overflow-hidden">
+        <div class="hero-shape w-[400px] h-[400px] bg-gold top-[-10%] right-[-5%] opacity-20"></div>
+        <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="px-4 py-1.5 bg-amber-100 text-amber-800 text-xs font-bold uppercase tracking-wider rounded-full">En desarrollo</span>
+                        <span class="px-4 py-1.5 bg-forest/10 text-forest text-xs font-bold uppercase tracking-wider rounded-full">Gestion de Personal</span>
+                    </div>
+                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-[#1c1c1a] tracking-tighter leading-[0.9] mb-6">
+                        Nominas <span class="text-forest">360</span>
+                    </h1>
+                    <p class="text-xl text-gray-500 leading-relaxed mb-8 max-w-[45ch]">
+                        Control integral de trabajadores: desde el registro de asistencias hasta la emision de boletas de pago, 
+                        con integracion directa a <strong class="text-forest">PLAME y T-Registro</strong>.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="https://wa.me/51934441569" class="inline-flex items-center gap-2 px-7 py-3.5 bg-forest text-white font-bold rounded-2xl hover:bg-forest-dark transition-all transform active:scale-[0.97] shadow-lg shadow-forest/20">
+                            Solicitar acceso anticipado
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="hidden lg:block">
+                    <div class="bg-white rounded-[2.5rem] p-8 border border-gray-100 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)]">
+                        <div class="bg-gray-50 rounded-xl p-5 border border-gray-100 mb-4">
+                            <div class="flex items-center justify-between mb-4">
+                                <p class="font-bold text-sm">Resumen de Planilla — Mayo 2026</p>
+                                <span class="text-[10px] bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded font-bold">Procesada</span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-3 text-center">
+                                <div><p class="text-2xl font-black text-forest">48</p><p class="text-[10px] text-gray-400 uppercase tracking-wide">Trabajadores</p></div>
+                                <div><p class="text-2xl font-black text-gold-dark">S/ 156K</p><p class="text-[10px] text-gray-400 uppercase tracking-wide">Bruto Total</p></div>
+                                <div><p class="text-2xl font-black text-forest">100%</p><p class="text-[10px] text-gray-400 uppercase tracking-wide">Asistencia</p></div>
+                            </div>
+                        </div>
+                        <p class="text-center text-[10px] text-gray-400 uppercase tracking-widest">Vista representativa del sistema</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="funciones" class="py-28">
+        <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
+            <div class="max-w-2xl mb-16">
+                <span class="text-xs font-bold uppercase tracking-[0.2em] text-forest/60">Funcionalidades</span>
+                <h2 class="text-4xl md:text-5xl font-black text-[#1c1c1a] tracking-tighter mt-4 leading-[0.95]">
+                    Todo lo que necesitas <br><span class="text-forest">para gestionar tu personal</span>
+                </h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-lg transition-all animate-in">
+                    <div class="w-12 h-12 rounded-xl bg-gold/20 text-gold-dark flex items-center justify-center mb-5">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Control de Asistencias</h3>
+                    <p class="text-gray-500">Registro diario de ingresos y salidas con reportes por periodo y trabajador. Historial completo de asistencia.</p>
+                </div>
+
+                <div class="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-lg transition-all animate-in">
+                    <div class="w-12 h-12 rounded-xl bg-gold/20 text-gold-dark flex items-center justify-center mb-5">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Elaboracion de Planillas</h3>
+                    <p class="text-gray-500">Calculo automatizado de remuneraciones, aportes, retenciones y beneficios sociales.</p>
+                </div>
+
+                <div class="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-lg transition-all animate-in">
+                    <div class="w-12 h-12 rounded-xl bg-gold/20 text-gold-dark flex items-center justify-center mb-5">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Integracion PLAME y T-Registro</h3>
+                    <p class="text-gray-500">Generacion directa de archivos compatibles con SUNAT para declaraciones mensuales.</p>
+                </div>
+
+                <div class="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-lg transition-all animate-in">
+                    <div class="w-12 h-12 rounded-xl bg-gold/20 text-gold-dark flex items-center justify-center mb-5">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Contratos y Boletas de Pago</h3>
+                    <p class="text-gray-500">Generacion automatica de contratos laborales y emision de boletas de pago digitales.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-white border-t border-gray-100 text-center">
+        <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
+            <div class="max-w-xl mx-auto">
+                <div class="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                </div>
+                <h2 class="text-3xl font-black tracking-tighter mb-4">Nominas 360 esta en desarrollo</h2>
+                <p class="text-gray-500 text-lg mb-8">Se parte de los primeros en probarlo. Registrate para acceso anticipado.</p>
+                <a href="https://wa.me/51934441569" class="inline-flex items-center gap-2 px-8 py-4 bg-gold text-black font-bold rounded-2xl hover:bg-gold-dark transition-all transform active:scale-[0.97] shadow-lg shadow-gold/20">
+                    Quiero acceso anticipado
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                </a>
+                <div class="mt-6">
+                    <a href="../index.html" class="text-sm text-gray-400 hover:text-forest transition-colors">&larr; Volver a todos los productos</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-[#1c1c1a] text-white py-12">
+        <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 text-center text-sm text-gray-500">
+            <p>&copy; 2026 Enfoque 360 — Nominas 360</p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); } });
+            }, { threshold: 0, rootMargin: "0px 0px 100px 0px" });
+            document.querySelectorAll('.animate-in').forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>

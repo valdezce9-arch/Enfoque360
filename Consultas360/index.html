@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Consultas 360 — Consulta DNI, RUC y Techo Propio gratis</title>
+<meta name="description" content="Consulta gratis el DNI de una persona, el RUC de una empresa con deudas SUNAT, y el estado de postulación Techo Propio (Fondo Mivivienda). Rápido, seguro y sin registrarte.">
+<link rel="canonical" href="https://enfoque360.pe/Consultas360/">
+<meta property="og:title" content="Consultas 360 — DNI, RUC y Techo Propio gratis">
+<meta property="og:description" content="Consulta DNI, RUC con deudas SUNAT y estado de postulación Techo Propio. Gratis, rápido y sin registrarte.">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/webp" href="logo_enfoque.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+    theme: {
+        extend: {
+            colors: {
+                forest: { light: '#558c84', DEFAULT: '#2d5f59', dark: '#1a3d39', deeper: '#0f2a27' },
+                gold: { light: '#f0ead2', DEFAULT: '#c9ba8b', dark: '#a8996a' }
+            },
+            fontFamily: { sans: ['Outfit', 'system-ui', 'sans-serif'] }
+        }
+    }
+}
+</script>
+<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<style>
+html { scroll-behavior: smooth; }
+body { background: #0d1817; }
+[x-cloak] { display: none !important; }
+::selection { background: #c9ba8b; color: #0d1817; }
+.glass {
+    background: rgba(255,255,255,0.04);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.08);
+}
+.glass-card {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.10);
+}
+.hero-gradient {
+    background:
+        radial-gradient(700px 320px at 85% -10%, rgba(85,140,132,0.28), transparent 60%),
+        radial-gradient(600px 300px at 8% 10%, rgba(201,186,139,0.14), transparent 55%),
+        linear-gradient(135deg, #0f2a27 0%, #122420 55%, #0d1817 100%);
+}
+.hero-shape {
+    position: absolute; border-radius: 9999px; filter: blur(90px); opacity: .35; pointer-events: none;
+}
+input[type="text"], input[type="tel"], textarea {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.14);
+    color: #e8edec;
+    outline: none;
+}
+input[type="text"]:focus, input[type="tel"]:focus, textarea:focus {
+    border-color: #558c84;
+    box-shadow: 0 0 0 3px rgba(85,140,132,0.25);
+}
+input::placeholder, textarea::placeholder { color: #6b7c79; }
+.tab-btn { transition: all .2s ease; }
+.tab-btn.activo {
+    background: #2d5f59; color: #fff;
+    box-shadow: 0 4px 18px rgba(45,95,89,0.45);
+}
+.animate-in { opacity: 0; transform: translateY(24px); transition: opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1); }
+.animate-in.is-visible { opacity: 1; transform: translateY(0); }
+.fmv-timeline { position: relative; padding-left: 1.1rem; }
+.fmv-timeline::before {
+    content: ''; position: absolute; left: .3rem; top: .35rem; bottom: .35rem;
+    width: 2px; background: linear-gradient(180deg, #558c84, rgba(85,140,132,.15));
+}
+.fmv-timeline .hito { position: relative; }
+.fmv-timeline .hito::before {
+    content: ''; position: absolute; left: -1.1rem; top: .3rem;
+    width: .5rem; height: .5rem; border-radius: 9999px;
+    background: #2d5f59; border: 2px solid #122420;
+}
+.spinner {
+    width: 1.1rem; height: 1.1rem; border-radius: 9999px;
+    border: 2px solid rgba(255,255,255,.25); border-top-color: #c9ba8b;
+    animation: girar .7s linear infinite; display: inline-block;
+}
+@keyframes girar { to { transform: rotate(360deg); } }
+@keyframes barra { from { width: 0 } to { width: 100% } }
+.progress-anim { animation: barra 1.2s ease-in-out infinite alternate; }
+</style>
+</head>
+<body class="font-sans text-[#e8edec] antialiased">
+
+<!-- ============ NAV ============ -->
+<nav class="fixed w-full top-0 z-50 glass" x-data="{ open: false }">
+    <div class="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between">
+        <a href="../index.html" class="flex items-center gap-3">
+            <img src="logo_enfoque.webp" alt="Enfoque 360" class="h-11 brightness-0 invert">
+            <span class="font-bold text-lg tracking-tight">Consultas <span class="text-gold">360</span></span>
+        </a>
+        <div class="hidden md:flex items-center gap-7 text-sm font-medium">
+            <a href="#consultas" class="text-white/80 hover:text-gold transition">Consultas</a>
+            <a href="#servicios" class="text-white/80 hover:text-gold transition">Servicios</a>
+            <a href="#blog" class="text-white/80 hover:text-gold transition">Blog</a>
+            <a href="../index.html" class="text-white/80 hover:text-gold transition">ERP Enfoque 360</a>
+            <a href="https://wa.me/51934441569?text=Hola%2C%20quiero%20una%20demo%20del%20ERP%20Enfoque%20360"
+               class="bg-gold hover:bg-gold-dark text-[#0d1817] font-semibold px-5 py-2.5 rounded-full transition hover:scale-105">
+                Solicitar Demo
+            </a>
+        </div>
+        <button @click="open = !open" class="md:hidden text-white/90" aria-label="Menú">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+    </div>
+    <div x-show="open" x-cloak class="md:hidden glass border-t border-white/10 px-4 pb-5 pt-2 space-y-1">
+        <a href="#consultas" class="block py-2.5 text-white/85 hover:text-gold">Consultas</a>
+        <a href="#servicios" class="block py-2.5 text-white/85 hover:text-gold">Servicios</a>
+        <a href="#blog" class="block py-2.5 text-white/85 hover:text-gold">Blog</a>
+        <a href="../index.html" class="block py-2.5 text-white/85 hover:text-gold">ERP Enfoque 360</a>
+        <a href="https://wa.me/51934441569" class="block py-2.5 text-gold font-semibold">Solicitar Demo →</a>
+    </div>
+</nav>
+
+<!-- ============ HERO + HERRAMIENTA ============ -->
+<header class="hero-gradient relative overflow-hidden pt-32 pb-20">
+    <div class="hero-shape w-72 h-72 bg-forest-light -top-10 -right-10"></div>
+    <div class="hero-shape w-64 h-64 bg-gold/40 bottom-0 -left-16"></div>
+    <div class="max-w-6xl mx-auto px-4 relative">
+        <div class="text-center max-w-3xl mx-auto">
+            <div class="flex flex-wrap justify-center gap-2 mb-5 animate-in">
+                <span class="bg-forest/20 text-forest-light text-xs font-semibold px-4 py-1.5 rounded-full border border-forest/40">DNI</span>
+                <span class="bg-forest/20 text-forest-light text-xs font-semibold px-4 py-1.5 rounded-full border border-forest/40">RUC + Deudas SUNAT</span>
+                <span class="bg-gold/15 text-gold text-xs font-semibold px-4 py-1.5 rounded-full border border-gold/30">Techo Propio FMV</span>
+                <span class="bg-forest/20 text-forest-light text-xs font-semibold px-4 py-1.5 rounded-full border border-forest/40">10 consultas gratis / día</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-extrabold leading-tight tracking-tight animate-in">
+                Consulta <span class="text-gold">DNI</span>, <span class="text-gold">RUC</span> y <span class="text-gold">Techo Propio</span> gratis
+            </h1>
+            <p class="mt-5 text-lg text-white/70 animate-in">
+                Verifica personas y empresas al instante y sigue el estado de tu postulación al Fondo Mivivienda.
+                Rápido, seguro y sin registrarte.
+            </p>
+        </div>
+
+        <!-- HERRAMIENTA -->
+        <div id="consultas" class="mt-12 glass-card rounded-3xl p-6 md:p-8 max-w-3xl mx-auto animate-in">
+            <div class="flex items-center justify-between flex-wrap gap-3 mb-6">
+                <div class="flex gap-2 bg-white/5 rounded-full p-1.5 border border-white/10">
+                    <button data-tab="dni" class="tab-btn activo px-5 py-2 rounded-full text-sm font-semibold text-white/80">DNI</button>
+                    <button data-tab="ruc" class="tab-btn px-5 py-2 rounded-full text-sm font-semibold text-white/80">RUC</button>
+                    <button data-tab="fmv" class="tab-btn px-5 py-2 rounded-full text-sm font-semibold text-white/80">Techo Propio</button>
+                </div>
+                <div id="contador" class="text-xs font-medium text-white/60 bg-forest/20 border border-forest/40 rounded-full px-4 py-1.5">
+                    Consultas hoy: <span id="contador-num">—</span> / 10
+                </div>
+            </div>
+
+            <!-- Tab DNI -->
+            <div data-panel="dni" class="panel">
+                <form id="form-dni" class="flex flex-col sm:flex-row gap-3">
+                    <input id="in-dni" type="text" inputmode="numeric" maxlength="8" placeholder="Ingresa el DNI (8 dígitos)" class="flex-1 rounded-xl px-5 py-3.5 text-base">
+                    <button type="submit" class="bg-gold hover:bg-gold-dark text-[#0d1817] font-bold px-8 py-3.5 rounded-xl transition hover:scale-[1.02] shadow-2xl shadow-gold/20">
+                        Consultar DNI
+                    </button>
+                </form>
+                <p class="mt-3 text-xs text-white/50">Nombres y apellidos de la persona. La fecha de nacimiento se muestra cuando la fuente de respaldo está disponible.</p>
+            </div>
+
+            <!-- Tab RUC -->
+            <div data-panel="ruc" class="panel hidden">
+                <form id="form-ruc" class="flex flex-col sm:flex-row gap-3">
+                    <input id="in-ruc" type="text" inputmode="numeric" maxlength="11" placeholder="Ingresa el RUC (11 dígitos)" class="flex-1 rounded-xl px-5 py-3.5 text-base">
+                    <button type="submit" class="bg-gold hover:bg-gold-dark text-[#0d1817] font-bold px-8 py-3.5 rounded-xl transition hover:scale-[1.02] shadow-2xl shadow-gold/20">
+                        Consultar RUC
+                    </button>
+                </form>
+                <p class="mt-3 text-xs text-white/50">Ficha completa de SUNAT: estado, domicilio, actividades, deudas coactivas, representantes legales y anexos.</p>
+            </div>
+
+            <!-- Tab Techo Propio -->
+            <div data-panel="fmv" class="panel hidden">
+                <form id="form-fmv" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-white/80 mb-2" for="in-fmv">
+                            Pega hasta 10 DNIs (Ctrl+C / Ctrl+V — uno por línea, comas o espacios)
+                        </label>
+                        <textarea id="in-fmv" rows="3" placeholder="Ejemplo:&#10;80420928, 03886574&#10;43366374" class="w-full rounded-xl px-5 py-3.5 text-base resize-y"></textarea>
+                        <p class="mt-1.5 text-xs text-white/50">Se detectan automáticamente los números de 8 dígitos. También sirve para promotores que validan postulaciones en lote.</p>
+                    </div>
+                    <div id="chips-fmv" class="flex flex-wrap gap-2 min-h-8"></div>
+                    <div id="progreso-fmv" class="hidden">
+                        <div class="h-2 rounded-full bg-white/10 overflow-hidden">
+                            <div id="barra-fmv" class="h-full w-0 bg-gold rounded-full progress-anim"></div>
+                        </div>
+                        <p id="progreso-texto" class="mt-2 text-xs text-white/60">Consultando…</p>
+                    </div>
+                    <button type="submit" class="w-full sm:w-auto bg-gold hover:bg-gold-dark text-[#0d1817] font-bold px-8 py-3.5 rounded-xl transition hover:scale-[1.02] shadow-2xl shadow-gold/20">
+                        Consultar lote
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <p class="text-center mt-4 text-xs text-white/45">
+            Fuentes públicas: SUNAT, Fondo Mivivienda y portales de acceso libre. Los resultados pueden tener demoras o variar según las fuentes.
+        </p>
+    </div>
+</header>
+
+<!-- ============ RESULTADOS ============ -->
+<main class="max-w-6xl mx-auto px-4 py-14">
+    <div id="resultados"></div>
+</main>
+
+<!-- ============ SERVICIOS ============ -->
+<section id="servicios" class="py-16 border-y border-white/5 bg-[#0f1b1a]">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="text-center mb-12">
+            <span class="bg-forest/20 text-forest-light text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-widest">Servicios</span>
+            <h2 class="mt-4 text-3xl md:text-4xl font-bold tracking-tight">¿Necesitas algo más que una consulta?</h2>
+            <p class="mt-3 text-white/60 max-w-2xl mx-auto">Construimos software a medida y automatizaciones para empresas peruanas. Estos son algunos de los proyectos que ya tenemos funcionando.</p>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <article class="glass rounded-2xl p-7 hover:-translate-y-1 hover:shadow-2xl hover:shadow-forest/20 transition">
+                <div class="w-12 h-12 rounded-xl bg-forest/25 flex items-center justify-center text-2xl mb-4">⚙️</div>
+                <h3 class="text-xl font-bold">Software a Medida</h3>
+                <p class="mt-2 text-sm text-white/60">Sistemas web, CRMs, dashboards y apps de gestión construidas a la medida de tu negocio.</p>
+                <ul class="mt-4 space-y-2 text-sm text-white/70">
+                    <li class="flex gap-2"><span class="text-gold">✓</span> ERP de control de procesos Techo Propio</li>
+                    <li class="flex gap-2"><span class="text-gold">✓</span> Conciliador de boletas y pagos</li>
+                    <li class="flex gap-2"><span class="text-gold">✓</span> Apps para barberías, cajas, campañas</li>
+                </ul>
+                <a href="https://wa.me/51934441569?text=Hola%2C%20quiero%20un%20software%20a%20medida" class="mt-5 inline-block text-sm font-semibold text-gold hover:text-gold-light">Cotiza el tuyo →</a>
+            </article>
+            <article class="glass rounded-2xl p-7 hover:-translate-y-1 hover:shadow-2xl hover:shadow-forest/20 transition">
+                <div class="w-12 h-12 rounded-xl bg-forest/25 flex items-center justify-center text-2xl mb-4">🎨</div>
+                <h3 class="text-xl font-bold">Diseño de Páginas Web</h3>
+                <p class="mt-2 text-sm text-white/60">Tu cara al público: páginas web corporativas, landing pages y tiendas, con diseño moderno y enfocadas en convertir visitas en clientes.</p>
+                <ul class="mt-4 space-y-2 text-sm text-white/70">
+                    <li class="flex gap-2"><span class="text-gold">✓</span> Páginas web corporativas y landing</li>
+                    <li class="flex gap-2"><span class="text-gold">✓</span> Diseño responsive y SEO</li>
+                    <li class="flex gap-2"><span class="text-gold">✓</span> Integración con WhatsApp y redes</li>
+                </ul>
+                <a href="https://wa.me/51934441569?text=Hola%2C%20quiero%20una%20p%C3%A1gina%20web%20para%20mi%20negocio" class="mt-5 inline-block text-sm font-semibold text-gold hover:text-gold-light">Quiero mi web →</a>
+            </article>
+            <article class="glass rounded-2xl p-7 hover:-translate-y-1 hover:shadow-2xl hover:shadow-forest/20 transition">
+                <div class="w-12 h-12 rounded-xl bg-forest/25 flex items-center justify-center text-2xl mb-4">🤖</div>
+                <h3 class="text-xl font-bold">Automatizaciones e IA</h3>
+                <p class="mt-2 text-sm text-white/60">Flujos con n8n, bots conversacionales y procesamiento de datos con IA local (LLM).</p>
+                <ul class="mt-4 space-y-2 text-sm text-white/70">
+                    <li class="flex gap-2"><span class="text-gold">✓</span> Buscador de viviendas automatizado</li>
+                    <li class="flex gap-2"><span class="text-gold">✓</span> Bot de atención por IA</li>
+                    <li class="flex gap-2"><span class="text-gold">✓</span> Aprobaciones de marketing automáticas</li>
+                </ul>
+                <a href="https://wa.me/51934441569?text=Hola%2C%20quiero%20automatizar%20procesos" class="mt-5 inline-block text-sm font-semibold text-gold hover:text-gold-light">Automatiza tu empresa →</a>
+            </article>
+            <article class="glass rounded-2xl p-7 hover:-translate-y-1 hover:shadow-2xl hover:shadow-forest/20 transition">
+                <div class="w-12 h-12 rounded-xl bg-forest/25 flex items-center justify-center text-2xl mb-4">🔗</div>
+                <h3 class="text-xl font-bold">Consultas e Integraciones de Datos</h3>
+                <p class="mt-2 text-sm text-white/60">Integramos portales públicos (SUNAT, Fondo Mivivienda) y datos a tus sistemas: verificación masiva de proveedores, postulantes y clientes.</p>
+                <ul class="mt-4 space-y-2 text-sm text-white/70">
+                    <li class="flex gap-2"><span class="text-gold">✓</span> Validación de postulaciones Techo Propio en lote</li>
+                    <li class="flex gap-2"><span class="text-gold">✓</span> Verificación de proveedores con deudas</li>
+                    <li class="flex gap-2"><span class="text-gold">✓</span> Integración vía API a tu sistema</li>
+                </ul>
+                <a href="https://wa.me/51934441569?text=Hola%2C%20quiero%20integrar%20consultas%20a%20mi%20sistema" class="mt-5 inline-block text-sm font-semibold text-gold hover:text-gold-light">Habla con nosotros →</a>
+            </article>
+        </div>
+
+        <!-- Promo ERP -->
+        <div class="mt-10 glass-card rounded-3xl p-8 md:p-10 flex flex-col md:flex-row items-center gap-8">
+            <div class="flex-1">
+                <span class="bg-gold/15 text-gold text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-widest">ERP Enfoque 360</span>
+                <h3 class="mt-4 text-2xl md:text-3xl font-bold tracking-tight">Controla tus procesos Techo Propio con un ERP hecho para eso</h3>
+                <p class="mt-3 text-white/60">ERP, nóminas y gestor documentario con OCR: seguimiento de postulaciones, bonos FMV y documentación de tus proyectos de vivienda.</p>
+                <div class="mt-6 flex flex-wrap gap-3">
+                    <a href="https://wa.me/51934441569?text=Hola%2C%20quiero%20una%20demo%20del%20ERP%20Enfoque%20360" class="bg-gold hover:bg-gold-dark text-[#0d1817] font-bold px-7 py-3 rounded-xl transition hover:scale-105 shadow-2xl shadow-gold/20">Solicitar Demo</a>
+                    <a href="../index.html" class="border border-white/25 hover:bg-white/10 text-white font-semibold px-7 py-3 rounded-xl transition">Conocer el ERP</a>
+                </div>
+            </div>
+            <div class="flex gap-4 shrink-0">
+                <div class="text-center">
+                    <p class="text-4xl font-extrabold text-gold">9</p>
+                    <p class="text-xs text-white/50 mt-1">módulos integrados</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-4xl font-extrabold text-gold">100%</p>
+                    <p class="text-xs text-white/50 mt-1">control de procesos</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ BLOG ============ -->
+<section id="blog" class="py-16">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="text-center mb-12">
+            <span class="bg-forest/20 text-forest-light text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-widest">Blog</span>
+            <h2 class="mt-4 text-3xl md:text-4xl font-bold tracking-tight">Guías de consultas en Perú</h2>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <a href="blog/estado-techo-propio.html" class="glass rounded-2xl p-6 hover:-translate-y-1 hover:shadow-2xl hover:shadow-forest/20 transition">
+                <span class="text-xs font-semibold text-gold">Techo Propio</span>
+                <h3 class="mt-2 font-bold text-lg leading-snug">¿Cómo consultar el estado de tu postulación Techo Propio?</h3>
+                <p class="mt-2 text-sm text-white/55">Guía paso a paso con tu DNI, gratis y en minutos.</p>
+            </a>
+            <a href="blog/estados-fmv.html" class="glass rounded-2xl p-6 hover:-translate-y-1 hover:shadow-2xl hover:shadow-forest/20 transition">
+                <span class="text-xs font-semibold text-gold">Techo Propio</span>
+                <h3 class="mt-2 font-bold text-lg leading-snug">Estados de postulación Techo Propio: qué significa cada uno</h3>
+                <p class="mt-2 text-sm text-white/55">De INSCRITO a BENEFICIARIO DESEMBOLSADO, explicado simple.</p>
+            </a>
+            <a href="blog/deudas-sunat.html" class="glass rounded-2xl p-6 hover:-translate-y-1 hover:shadow-2xl hover:shadow-forest/20 transition">
+                <span class="text-xs font-semibold text-gold">SUNAT</span>
+                <h3 class="mt-2 font-bold text-lg leading-snug">¿Cómo saber si una empresa tiene deudas SUNAT?</h3>
+                <p class="mt-2 text-sm text-white/55">Revisa deudas coactivas y omisiones tributarias de cualquier RUC.</p>
+            </a>
+            <a href="blog/consultar-ruc-gratis.html" class="glass rounded-2xl p-6 hover:-translate-y-1 hover:shadow-2xl hover:shadow-forest/20 transition">
+                <span class="text-xs font-semibold text-gold">SUNAT</span>
+                <h3 class="mt-2 font-bold text-lg leading-snug">Cómo consultar el RUC de una empresa gratis</h3>
+                <p class="mt-2 text-sm text-white/55">Ficha completa: estado, condición, domicilio y actividades.</p>
+            </a>
+            <a href="blog/validar-dni.html" class="glass rounded-2xl p-6 hover:-translate-y-1 hover:shadow-2xl hover:shadow-forest/20 transition">
+                <span class="text-xs font-semibold text-gold">DNI</span>
+                <h3 class="mt-2 font-bold text-lg leading-snug">Cómo validar el DNI de una persona</h3>
+                <p class="mt-2 text-sm text-white/55">Verifica nombres y apellidos de cualquier DNI en segundos.</p>
+            </a>
+            <a href="blog/verificar-proveedor.html" class="glass rounded-2xl p-6 hover:-translate-y-1 hover:shadow-2xl hover:shadow-forest/20 transition">
+                <span class="text-xs font-semibold text-gold">Empresas</span>
+                <h3 class="mt-2 font-bold text-lg leading-snug">Cómo verificar a un proveedor antes de contratarlo</h3>
+                <p class="mt-2 text-sm text-white/55">Guía de riesgo: deudas, representantes y antigüedad del RUC.</p>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="bg-[#1c1c1a] text-white pt-16 pb-8">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="grid md:grid-cols-4 gap-10">
+            <div class="md:col-span-2">
+                <img src="logo_enfoque.webp" alt="Enfoque 360" class="h-12 brightness-0 invert">
+                <p class="mt-4 text-sm text-white/55 max-w-sm">Consultas 360 es una herramienta de <a href="../index.html" class="text-gold hover:underline">Enfoque 360</a> para consultar DNI, RUC y estado de postulación Techo Propio. Información de fuentes públicas.</p>
+                <p class="mt-4 text-xs text-white/40">Hecho en el Perú 🇵🇪</p>
+            </div>
+            <div>
+                <h4 class="text-gold uppercase tracking-widest text-sm font-semibold">Enlaces</h4>
+                <ul class="mt-4 space-y-2.5 text-sm text-white/70">
+                    <li><a href="#consultas" class="hover:text-gold">Consultar ahora</a></li>
+                    <li><a href="#servicios" class="hover:text-gold">Servicios</a></li>
+                    <li><a href="#blog" class="hover:text-gold">Guías</a></li>
+                    <li><a href="../index.html" class="hover:text-gold">ERP Enfoque 360</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-gold uppercase tracking-widest text-sm font-semibold">Contacto</h4>
+                <ul class="mt-4 space-y-2.5 text-sm text-white/70">
+                    <li><a href="mailto:enfoque.ceo@gmail.com" class="hover:text-gold">enfoque.ceo@gmail.com</a></li>
+                    <li><a href="https://wa.me/51934441569" class="hover:text-gold">WhatsApp +51 934 441 569</a></li>
+                    <li><a href="../index.html" class="hover:text-gold">Todos los productos</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="mt-12 pt-6 border-t border-white/10 text-xs text-white/40 space-y-3">
+            <p><strong class="text-white/60">Aviso de privacidad (Ley N.º 29733):</strong> esta herramienta consulta información de fuentes públicas (SUNAT, Fondo Mivivienda y portales de acceso libre). Los datos personales (DNI, fecha de nacimiento) se usan únicamente para atender tu consulta y no se almacenan ni se comparten. Está prohibido el uso de esta herramienta para fines ilícitos o de acoso.</p>
+            <p>Los resultados pueden tener errores o demoras según las fuentes. Consultas 360 no es una entidad oficial. © 2026 Enfoque 360.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- WhatsApp flotante -->
+<a href="https://wa.me/51934441569?text=Hola%2C%20vi%20Consultas%20360%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n"
+   class="fixed bottom-8 right-8 z-50 group" aria-label="WhatsApp">
+    <span class="absolute inset-0 rounded-full bg-[#25D366] animate-ping opacity-20"></span>
+    <span class="relative flex items-center justify-center w-14 h-14 rounded-full bg-[#25D366] shadow-xl" style="box-shadow: 0 10px 25px rgba(37,211,102,.4)">
+        <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.83 14.12c-.25.7-1.45 1.33-2 1.38-.51.05-1.15.07-1.86-.12-.43-.12-.99-.32-1.7-.63-3-1.3-4.96-4.32-5.11-4.52-.15-.2-1.22-1.63-1.22-3.11 0-1.48.78-2.21 1.05-2.51.28-.3.6-.38.8-.38.2 0 .4 0 .58.01.19.01.44-.07.68.53.25.6.85 2.07.93 2.22.07.15.12.33.02.53-.1.2-.15.32-.3.5-.15.17-.31.39-.45.52-.15.15-.3.31-.13.61.17.3.76 1.25 1.63 2.03 1.12 1 2.06 1.31 2.35 1.46.3.15.47.13.64-.08.17-.2.74-.86.93-1.16.2-.3.4-.25.67-.15.27.1 1.73.82 2.03.97.3.15.5.22.57.35.07.13.07.73-.18 1.43z"/></svg>
+    </span>
+</a>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

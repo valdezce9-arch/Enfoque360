@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /Consultas360/
+
+Sitemap: https://enfoque360.pe/Consultas360/sitemap.xml
