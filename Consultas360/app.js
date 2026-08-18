@@ -23,6 +23,9 @@ function dinero(v) {
 function keyEstado(estado) {
     const e = (estado || "").toUpperCase();
     if (e.includes("DESEMBOLSADO")) return "emerald";
+    // Patrón Semaforo: NO EVALUADO = badge amarillo, EVALUADO = badge verde
+    if (e.includes("NO EVALUADO")) return "amber";
+    if (e.includes("EVALUADO")) return "emerald";
     if (e.includes("ELEGIBLE")) return "amber";
     if (e.includes("INSCRITO")) return "sky";
     if (e.includes("REVISIÓN") || e.includes("REVISION")) return "violet";
@@ -38,11 +41,21 @@ const ESTADO_STYLE = {
     orange:  "bg-orange-500/15 text-orange-300 border-orange-500/40",
     red:     "bg-red-500/15 text-red-300 border-red-500/40",
     verde:   "bg-emerald-500/15 text-emerald-300 border-emerald-500/40",
+    blanco:  "bg-white/15 text-white border-white/30",
     gris:    "bg-white/10 text-white/60 border-white/15",
 };
 function badge(texto, clave) {
     return el("span", "text-xs font-bold px-3 py-1 rounded-full border " +
         (ESTADO_STYLE[clave] || ESTADO_STYLE.gris), texto);
+}
+// Sombreado de estados FMV: EVALUADO = verde, NO EVALUADO = amarillo,
+// NO ELEGIBLE = rojo, cualquier otro estado = blanco.
+function keyEstadoFmv(estado) {
+    const e = (estado || "").toUpperCase();
+    if (e.includes("NO EVALUADO")) return "amber";
+    if (e.includes("EVALUADO")) return "emerald";
+    if (e.includes("NO ELEGIBLE")) return "red";
+    return "blanco";
 }
 
 /* ---------- copiar resultados ---------- */
@@ -392,7 +405,7 @@ function renderFmv(r) {
         (r.busqueda.fecha ? " · " + r.busqueda.fecha : "")));
     head.appendChild(izq);
     const der = el("div", "flex items-center gap-2 flex-wrap shrink-0");
-    der.appendChild(badge("ESTADO: " + (r.estado_actual || r.busqueda.estado), keyEstado(r.estado_actual)));
+    der.appendChild(badge("ESTADO: " + (r.estado_actual || r.busqueda.estado), keyEstadoFmv(r.estado_actual)));
     der.appendChild(btnCopiar(textoFmv(r)));
     head.appendChild(der);
     card.appendChild(head);
@@ -525,7 +538,7 @@ function renderResumenLote(lista) {
         tr.appendChild(el("td", "py-2 pr-3 text-xs whitespace-nowrap", r.dni));
         tr.appendChild(el("td", "py-2 pr-3 font-semibold whitespace-nowrap", b.nombre || "—"));
         const tdEstado = el("td", "py-2 pr-3");
-        tdEstado.appendChild(badge((r.estado_actual || b.estado) || "—", keyEstado(r.estado_actual)));
+        tdEstado.appendChild(badge((r.estado_actual || b.estado) || "—", keyEstadoFmv(r.estado_actual)));
         tr.appendChild(tdEstado);
         tr.appendChild(el("td", "py-2 pr-3 text-xs text-white/50 whitespace-nowrap", b.fecha || "—"));
         tr.appendChild(el("td", "py-2 pr-3 text-xs whitespace-nowrap", b.formId || "—"));
