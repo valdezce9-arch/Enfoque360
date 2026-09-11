@@ -609,7 +609,7 @@ function consultar(route, valor, renderFn, tipo) {
             if (resp.status === 429) {
                 RESULTADOS.innerHTML = "";
     RESULTADOS.appendChild(tarjetaError(
-                "Límite diario alcanzado (10 consultas gratis por día).",
+                "Límite diario alcanzado (20 consultas gratis por día).",
                 "Vuelve mañana, o escríbenos por WhatsApp para planes con más consultas o integración a tu sistema."));
                 RESULTADOS.appendChild(ctaPromo("¿Necesitas más consultas o validación masiva?"));
                 return;
