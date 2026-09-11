@@ -422,14 +422,16 @@ body.cartel-activo .wa-flotante { bottom: 9.5rem; }
 (function () {
     var cartel = document.getElementById("cartel-trial");
     if (!cartel) return;
-    if (!localStorage.getItem("c360_cartel_trial_cerrado")) {
+    // El cierre es temporal: reaparece al recargar/cambiar de página
+    // y tras cada consulta (app.js llama a window.mostrarCartel()).
+    window.mostrarCartel = function () {
         cartel.hidden = false;
         document.body.classList.add("cartel-activo");
-    }
+    };
+    window.mostrarCartel();
     document.getElementById("cartel-cerrar").addEventListener("click", function () {
         cartel.hidden = true;
         document.body.classList.remove("cartel-activo");
-        localStorage.setItem("c360_cartel_trial_cerrado", "1");
     });
 })();
 </script>
@@ -444,7 +446,7 @@ body.cartel-activo .wa-flotante { bottom: 9.5rem; }
 </a>
 
 <!-- Versión en la URL para saltar la caché de 4h de GitHub Pages al desplegar cambios -->
-<script src="config.js?v=3"></script>
-<script src="app.js?v=3"></script>
+<script src="config.js?v=4"></script>
+<script src="app.js?v=4"></script>
 </body>
 </html>

@@ -606,6 +606,7 @@ function consultar(route, valor, renderFn, tipo) {
     fetch(API_BASE + route, { cache: "no-store" })
         .then(async (resp) => {
             restantesDeRespuesta(resp);
+            if (window.mostrarCartel) window.mostrarCartel();
             if (resp.status === 429) {
                 RESULTADOS.innerHTML = "";
     RESULTADOS.appendChild(tarjetaError(
@@ -697,6 +698,7 @@ function initFmv() {
         })
             .then(async (resp) => {
                 restantesDeRespuesta(resp);
+                if (window.mostrarCartel) window.mostrarCartel();
                 const data = await resp.json();
                 RESULTADOS.innerHTML = "";
                 if (!resp.ok) {
