@@ -165,7 +165,7 @@ function restantesDeRespuesta(resp) {
 function cargarContador() {
     const guardado = localStorage.getItem("c360_" + hoyISO());
     if (guardado !== null) setContador(parseInt(guardado, 10));
-    fetch(API_BASE + "/api/v1/estado", { cache: "no-store" })
+    fetch(API_BASE + "/api/v1/estado", { cache: "no-store", headers: { "X-API-Key": API_KEY } })
         .then((r) => r.json())
         .then((d) => { if (d && d.consultas_restantes !== undefined) setContador(d.consultas_restantes); })
         .catch(() => {});
@@ -603,7 +603,7 @@ function consultar(route, valor, renderFn, tipo) {
     agregarConAnimacion(card);
     scrollAResultados();
 
-    fetch(API_BASE + route, { cache: "no-store" })
+    fetch(API_BASE + route, { cache: "no-store", headers: { "X-API-Key": API_KEY } })
         .then(async (resp) => {
             restantesDeRespuesta(resp);
             if (window.mostrarCartel) window.mostrarCartel();
@@ -693,7 +693,7 @@ function initFmv() {
 
         fetch(API_BASE + "/api/v1/fmv/lote", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json", "X-API-Key": API_KEY },
             body: JSON.stringify({ dnis }),
         })
             .then(async (resp) => {

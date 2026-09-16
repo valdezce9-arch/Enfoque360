@@ -7,3 +7,4 @@
 // Local: si se corre sin proxy, cambiar a window.location.origin.
 // ============================================================
 const API_BASE = "https://consultas.enfoque360.pe";
+const API_KEY = "web_publica_360_20260916";
